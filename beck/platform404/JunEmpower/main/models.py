@@ -24,3 +24,36 @@ class CustomUser(AbstractUser):
         return self.username
 
 
+class Project(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='projects')
+    project_name = models.CharField(max_length=100)
+    description = models.TextField()
+    demonstration = models.URLField(blank=True, null=True)
+    github_repository_url = models.URLField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.project_name
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments')
+    comment_text = models.TextField()
+    comment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.project.project_name}"
+
+
+class ProjectLike(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='likes')
+    like_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'project')
+
+    def __str__(self):
+        return f"{self.user.username} liked {self.project.project_name}"
+
