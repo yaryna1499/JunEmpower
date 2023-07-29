@@ -56,10 +56,6 @@ export const routes = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "addrepo",
-        element: <AddRepo />,
-      },
-      {
         path: "*",
         element: (
           <PrivateLayout>

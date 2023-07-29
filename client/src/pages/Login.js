@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { 
   Button,
@@ -8,14 +9,15 @@ import {
   Container,
   ButtonGroup,
   Box,
-  Typography,
   Link,
+  Typography,
   FormControl,
   RadioGroup,
   Radio,
 } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+
 
 
 const theme = createTheme({
@@ -82,7 +84,7 @@ export default function Login() {
                 <Button color="secondary" sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700}}>Register</Button>
                 <Button sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700}}>Login</Button>
             </ButtonGroup>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box sx={{mt: 1}}>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 {() => (
                     <Form>
@@ -151,10 +153,11 @@ export default function Login() {
                 </Box>
                 <Box>
                 Don't have an account?
-                    <Link href="#" variant="body2" sx={{textDecoration: "none", pl: 1.5, fontSize: "1.2rem", color: "#007AFF", "&:hover": {textDecoration: "underline"}}}>
-                    {"Sign Up"}
-                    </Link>
-
+                  <NavLink to="/register" style={{textDecoration: "none"}}>
+                    <Typography component="span" sx={{pl: 1.5, fontSize: "1.2rem", color: "#007AFF", "&:hover": {textDecoration: "underline"}}}>
+                        Sign Up
+                    </Typography>
+                  </NavLink>
                 </Box>
             </Box>
           </Box>
