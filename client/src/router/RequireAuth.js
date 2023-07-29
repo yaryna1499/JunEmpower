@@ -1,19 +1,14 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import Navbar from "../layout/Navbar"
+import { Navigate } from "react-router-dom";
 
-const RequireAuth = () => {
-  const auth = true;
+const isAuthenticated = true; 
 
-  if (!auth) {
+const RequireAuth = ({ children }) => {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
-  return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
-  );
+
+  return children; 
 };
 
 export default RequireAuth;

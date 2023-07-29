@@ -4,24 +4,52 @@ import Profile from "../pages/UserProfile";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import RequireAuth from "./RequireAuth";
-import Register from "../pages/Register";
-import Login from "../pages/Login";
+import PrivateLayout from "../layout/PrivateLayout";
 
-export const router = createBrowserRouter([
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+
+export const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
       {
-        element: <RequireAuth />,
-        children: [
-          { index: true, element: <Home /> },
-          { path: "profile", element: <Profile /> },
-        ],
+        index: true,
+        element: (
+          <RequireAuth>
+            <PrivateLayout>
+              <Home />
+            </PrivateLayout>
+          </RequireAuth>
+        ),
       },
-      { path: "register", element: <Register /> },
-      { path: "login", element: <Login /> },
-      { path: "*", element: <NotFound /> },
+      {
+        path: "profile",
+        element: (
+          <RequireAuth>
+            <PrivateLayout>
+              <Profile />
+            </PrivateLayout>
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "*",
+        element: (
+          <PrivateLayout>
+            <NotFound />
+          </PrivateLayout>
+        ),
+      },
     ],
   },
 ]);
