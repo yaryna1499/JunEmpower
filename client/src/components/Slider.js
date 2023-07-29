@@ -67,15 +67,21 @@ const Slider = () => {
   return (
     <>
       {imageLoaded && (
-        <SliderContainer sx={{mt: "5vh", maxWidth: "95%"}}>
+        <SliderContainer sx={{ mt: "5vh", maxWidth: "95%" }}>
           <SlideImage src={currentSlide.image} alt="slider" />
 
-          <StyledIconButton style={{ left: 0, marginLeft: "5%" }}>
-            <NavigateBefore onClick={handlePreviousImage} />
+          <StyledIconButton
+            style={{ left: 0, marginLeft: "5%" }}
+            onClick={handlePreviousImage}
+          >
+            <NavigateBefore />
           </StyledIconButton>
 
-          <StyledIconButton style={{ right: 0, marginRight: "5%", mt: "1%" }}>
-            <NavigateNext onClick={handleNextImage} />
+          <StyledIconButton
+            style={{ right: 0, marginRight: "5%", mt: "1%" }}
+            onClick={handleNextImage}
+          >
+            <NavigateNext />
           </StyledIconButton>
         </SliderContainer>
       )}

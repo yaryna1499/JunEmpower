@@ -1,6 +1,6 @@
 import { Typography, Grid, Button, TextField, styled } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomCard from "../components/CustomCard";
 import Slider from "../components/Slider";
 import RepoCard from "../components/RepoCard";
@@ -9,6 +9,12 @@ import img1 from "../assets/2023-06-12 23_17_23-Menu _ Pizzeria.png";
 import img2 from "../assets/cardimg1.jpg";
 import img3 from "../assets/photo_2023-07-29_20-55-16.jpg";
 import img4 from "../assets/2023-07-29 21_41_06-Vite App.png";
+import { postUserData } from "../api/userRequest";
+
+const userData = {
+  userName: "root",
+  password:"root"
+};
 
 const GridStyle = styled(Grid)(({ theme }) => ({
   marginTop: 1,
@@ -45,6 +51,10 @@ const theme = createTheme({
 const Home = () => {
   const [expanded, setExpanded] = useState(false);
 
+  // useEffect(() => {
+  //   postUserData(userData);
+  // }, [])
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -63,7 +73,7 @@ const Home = () => {
             <Slider />
           </Grid>
 
-          <Grid item xs={4} spacing={1}>
+          <Grid item xs={4}>
             <Typography variant="h6" sx={{ fontSize: "14px", mb: "2vh" }}>
               New Repo
             </Typography>
@@ -86,7 +96,7 @@ const Home = () => {
           </Grid>
         </Grid>
 
-        <Grid xs={14} sx={{ pt: "5vh", px: "5vw", pb: "3vh" }}>
+        <Grid item xs={14} sx={{ pt: "5vh", px: "5vw", pb: "3vh" }}>
           <Typography variant="h4" sx={{ fontSize: "23px" }}>
             All repositories:
           </Typography>

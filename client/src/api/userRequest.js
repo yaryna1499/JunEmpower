@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 const baseURL = "http://localhost:5000";
+const url = "https://6072-77-222-156-110.ngrok-free.app/sign-in/"
+
 
 export const postUserData = async (userData) => {
   try {
-    const response = await axios.post(`${baseURL}/users`, userData);
+    const response = await axios.post(url, userData);
     return response.data;
   } catch (error) {
     console.log("POST request failed:", error);
