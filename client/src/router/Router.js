@@ -38,6 +38,16 @@ export const routes = createBrowserRouter([
         ),
       },
       {
+        path: "add-repo",
+        element: (
+          <RequireAuth>
+            <PrivateLayout>
+              <AddRepo />
+            </PrivateLayout>
+          </RequireAuth>
+        ),
+      },
+      {
         path: "login",
         element: <Login />,
       },

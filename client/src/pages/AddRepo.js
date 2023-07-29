@@ -131,7 +131,90 @@ export default function AddRepo() {
                     </Button>
                 </Box>
             </Box>
+          </Box>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography component="h5" variant="title">
+                  Repo Name
+                </Typography>
+                <TextField
+                  autoComplete="given-name"
+                  name="repoName"
+                  fullWidth
+                  id="repoName"
+                  label="Write the title of your repo here"
+                  autoFocus
+                  sx={{
+                    mb: 3,
+                    backgroundColor: "#ffffff",
+                    boxShadow: "0 0 10px 0 #AAA6B9",
+                    borderRadius: "4px",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography component="h5" variant="title">
+                  GitHub Link
+                </Typography>
+                <TextField
+                  autoComplete="given-name"
+                  name="githubLink"
+                  fullWidth
+                  id="githubLink"
+                  label="Write the title of your post here"
+                  autoFocus
+                  sx={{
+                    mb: 3,
+                    backgroundColor: "#ffffff",
+                    boxShadow: "0 0 10px 0 #AAA6B9",
+                    borderRadius: "4px",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography component="h5" variant="title">
+                  Description
+                </Typography>
+                <TextField
+                  autoComplete="given-name"
+                  name="description"
+                  fullWidth
+                  id="description"
+                  label="Write about your project"
+                  autoFocus
+                  multiline
+                  rows={4}
+                  sx={{
+                    mb: 3,
+                    backgroundColor: "#ffffff",
+                    boxShadow: "0 0 10px 0 #AAA6B9",
+                    borderRadius: "4px",
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+                fontFamily: "Space Grotesk",
+                fontWeight: 700,
+              }}
+            >
+              Add Repo
+            </Button>
+          </Box>
         </Box>
+      </Box>
     </ThemeProvider>
   );
 }

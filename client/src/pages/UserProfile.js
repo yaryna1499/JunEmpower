@@ -21,42 +21,50 @@ import {
   TabPanel,
 } from '@mui/lab';
 
-
 const theme = createTheme({
-    typography:{
-        title: { 
-            fontFamily: "DM Sans", 
-            fontSize: "2rem", 
-            fontWeight: 700,
-            marginBottom: "1rem"
-        },
-        text:{
-            fontSize: "1.2rem",
-            fontWeight: 400,
-            marginBottom: "0",
-        }
+  typography: {
+    title: {
+      fontFamily: "DM Sans",
+      fontSize: "2rem",
+      fontWeight: 700,
+      marginBottom: "1rem",
     },
-    palette: {
-        primary: {
-          main: "#FFFFFF",
-        },
-        secondary: {
-          main: "#EEEEEF",
-          light: '#f5f5f5',
-          contrastText: '#bdbdbd',
-        },
-      },
+    text: {
+      fontSize: "1.2rem",
+      fontWeight: 400,
+      marginBottom: "0",
+    },
+  },
+  palette: {
+    primary: {
+      main: "#FFFFFF",
+    },
+    secondary: {
+      main: "#EEEEEF",
+      light: "#f5f5f5",
+      contrastText: "#bdbdbd",
+    },
+  },
 });
 
 export default function UserProfile() {
   const [value, setValue] = useState("1");
   const handleChange = (e, newValue) => {
     setValue(newValue);
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <CssBaseline />
+      <Box
+        sx={{
+          paddingTop: 8,
+          backgroundColor: "#E0C591",
+          padding: "2rem",
+          borderRadius: "1rem",
+          minHeight: "calc(100vh - var(--navbar-height))",
+        }}
+      >
         <Box
           sx={{
             backgroundColor: '#E0C591',
