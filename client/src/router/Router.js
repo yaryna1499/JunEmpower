@@ -9,11 +9,13 @@ import PrivateLayout from "../layout/PrivateLayout";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import { ErrorPage } from "../error.page";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

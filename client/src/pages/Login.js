@@ -1,18 +1,19 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import FormControl from '@mui/material/FormControl';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { 
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Container,
+  ButtonGroup,
+  Box,
+  Typography,
+  Link,
+  FormControl,
+  RadioGroup,
+  Radio,
+} from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -55,28 +56,6 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
-    try {
-      // Відправка POST-запиту на сервер з використанням Axios
-      const response = await axios.post('https://your-api-endpoint', event);
-
-      // Обробка відповіді з сервера
-      console.log('Відповідь з сервера:', response.data);
-
-      // Збереження даних локально в localStorage
-      localStorage.setItem('userData', JSON.stringify(event));
-
-      // Прибирання форми або перехід на іншу сторінку
-      // Наприклад, з використанням React Router: history.push('/success');
-
-      // Чи будь-яка інша логіка, яка пов'язана з реєстрацією користувача
-    } catch (error) {
-      console.error('Помилка при відправці даних:', error);
-    }
   };
 
   return (
@@ -118,7 +97,6 @@ export default function Login() {
                         fullWidth
                         id="email"
                         autoComplete="email"
-                        autoFocus
 
                         //     error={Boolean(touched.email && errors.email)}
                     //     helperText={touched.email && errors.email}

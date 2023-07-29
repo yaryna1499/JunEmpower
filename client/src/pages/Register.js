@@ -1,15 +1,17 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { 
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Container,
+  ButtonGroup,
+  Box,
+  Checkbox,
+  Typography,
+  Link,
+} from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -54,12 +56,6 @@ export default function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      username: data.get('username'),
-      password: data.get('password'),
-    });
   };
 
   return (
@@ -101,7 +97,6 @@ export default function Register() {
                         fullWidth
                         id="email"
                         autoComplete="email"
-                        autoFocus
                         // error={Boolean(touched.email && errors.email)}
                         // helperText={touched.email && errors.email}
                     />
@@ -115,7 +110,6 @@ export default function Register() {
                         label="Name"
                         fullWidth
                         autoComplete="given-name"
-                        autoFocus
                         // error={Boolean(touched.username && errors.username)}
                         // helperText={touched.username && errors.username}
                     />
