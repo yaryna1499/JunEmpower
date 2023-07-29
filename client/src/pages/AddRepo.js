@@ -1,12 +1,14 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { 
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    Grid,
+    Box,
+    Typography,
+  } from '@mui/material';
 
 
 const theme = createTheme({
@@ -38,11 +40,6 @@ const theme = createTheme({
 export default function AddRepo() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
   };
 
   return (
@@ -92,7 +89,6 @@ export default function AddRepo() {
                         fullWidth
                         id="repoName"
                         label="Write the title of your repo here"
-                        autoFocus
                         sx={{mb: 3, backgroundColor: "#ffffff", boxShadow: "0 0 10px 0 #AAA6B9", borderRadius: "4px"}}
                         />
                     </Grid>
@@ -106,7 +102,6 @@ export default function AddRepo() {
                         fullWidth
                         id="githubLink"
                         label="Write the title of your post here"
-                        autoFocus
                         sx={{mb: 3, backgroundColor: "#ffffff", boxShadow: "0 0 10px 0 #AAA6B9", borderRadius: "4px"}}
                         />
                     </Grid>
@@ -120,7 +115,6 @@ export default function AddRepo() {
                         fullWidth
                         id="description"
                         label="Write about your project"
-                        autoFocus
                         multiline
                         rows={4}
                         sx={{mb: 3, backgroundColor: "#ffffff", boxShadow: "0 0 10px 0 #AAA6B9", borderRadius: "4px"}}
