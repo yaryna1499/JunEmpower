@@ -2,6 +2,7 @@ import { Typography, Grid } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import CustomCard from "../components/CustomCard";
+import Slider from "../components/Slider";
 
 const Home = () => {
   const [expanded, setExpanded] = useState(false);
@@ -10,7 +11,7 @@ const Home = () => {
     setExpanded(!expanded);
   };
   return (
-    <Grid container spacing={1} sx={{ px: "5%", pt: "5%" }}>
+    <Grid container spacing={1} sx={{ px: "5%", pt: "3%" }}>
       <Grid item xs={8}>
         <Typography variant="h4">About our Application:</Typography>
         <Typography variant="h5" sx={{ mt: "0.5rem", maxWidth: "70%" }}>
@@ -18,6 +19,8 @@ const Home = () => {
           work, receive valuable feedback, and connect with potential employers.
           Join our community and take your career to new heights!
         </Typography>
+
+        <Slider />
       </Grid>
 
       <Grid item xs={4} spacing={1}>
