@@ -1,18 +1,25 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import List from '@mui/material/List';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Divider, ListItem, ListItemText } from '@mui/material';
+import { 
+  Avatar,
+  Button,
+  CssBaseline,
+  Box,
+  Typography,
+  Tab,
+  List,
+  Link,
+  Divider, 
+  ListItem, 
+  ListItemText,
+} from '@mui/material';
+import {
+  TabContext,
+  TabList,
+  TabPanel,
+} from '@mui/lab';
 
 
 const theme = createTheme({
@@ -52,11 +59,11 @@ export default function UserProfile() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             backgroundColor: '#E0C591',
             padding: "2rem",
+            paddingTop: "4rem",
             borderRadius: "1rem",
-            minHeight: "90vh",
+            minHeight: "calc(100vh - var(--navbar-height))",
           }}
         >
                 <Box sx={{
@@ -64,6 +71,7 @@ export default function UserProfile() {
                     flexWrap: "wrap",
                     gap: 4,
                     alignItems: "flex-start",
+                    justifyContent: "center"
                     
                 }}>
                     <Box sx={{
@@ -112,7 +120,7 @@ export default function UserProfile() {
                         <TabPanel value="2">
                           <List>
                             <ListItem>
-                              <ListItemText primary='Coding languages: Python, HTML5, JavaScript, CSS, PHP, SQL, C++, Ruby, .NET.' />
+                              <ListItemText primary='Coding languages:' secondary=' Python, HTML5, JavaScript, CSS, PHP, SQL, C++, Ruby, .NET.' />
                             </ListItem>
                             <Divider />
                             <ListItem>
@@ -152,11 +160,13 @@ export default function UserProfile() {
                         <TabPanel value="3">
                           <List>
                             <ListItem>
-                              <ListItemText primary='JunEmpower' secondary='A platform for young IT professionals to showcase their work, get feedback and interact with employers.' />
+                              <ListItemText 
+                                primary={<Link href="#" sx={{textDecoration: "none", color: "inherit", "&:hover": {textDecoration: "underline", color: "#FFFFFF"}}}>JunEmpower</Link>} 
+                                secondary='A platform for young IT professionals to showcase their work, get feedback and interact with employers.' />
                             </ListItem>
                             <Divider />
                             <ListItem>
-                              <ListItemText primary='Lorem' secondary='Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor quisquam assumenda eaque. Distinctio iste officia sapiente suscipit iure. Dolorem, nostrum.' />
+                              <ListItemText primary={<Link href="#" sx={{textDecoration: "none", color: "inherit", "&:hover": {textDecoration: "underline", color: "#FFFFFF"}}}>Lorem</Link>}  secondary='Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor quisquam assumenda eaque. Distinctio iste officia sapiente suscipit iure. Dolorem, nostrum.' />
                             </ListItem>
                           </List>
                         </TabPanel>
