@@ -74,7 +74,7 @@ export default function Register() {
               alignItems: 'center',
             }}
         >
-          <Typography component="h1" variant="title" sx={{mb: 3}}>
+          <Typography component="h2" variant="title" sx={{mb: 3}}>
             Jun<Typography variant="span">Empower</Typography>
           </Typography>
           <ButtonGroup
@@ -83,7 +83,7 @@ export default function Register() {
             aria-label="Disabled elevation buttons"
             sx={{width: "100%"}}
             >
-                <Button sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700, borderRight: "none"}}>Register</Button>
+                <Button sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700}}>Register</Button>
                 <Button color="secondary" sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700}}>Login</Button>
             </ButtonGroup>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

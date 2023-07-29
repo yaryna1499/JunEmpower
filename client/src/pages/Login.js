@@ -11,6 +11,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
+import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -52,13 +53,30 @@ export default function Login() {
       });
     
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    try {
+      // Відправка POST-запиту на сервер з використанням Axios
+      const response = await axios.post('https://your-api-endpoint', event);
+
+      // Обробка відповіді з сервера
+      console.log('Відповідь з сервера:', response.data);
+
+      // Збереження даних локально в localStorage
+      localStorage.setItem('userData', JSON.stringify(event));
+
+      // Прибирання форми або перехід на іншу сторінку
+      // Наприклад, з використанням React Router: history.push('/success');
+
+      // Чи будь-яка інша логіка, яка пов'язана з реєстрацією користувача
+    } catch (error) {
+      console.error('Помилка при відправці даних:', error);
+    }
   };
 
   return (
@@ -73,7 +91,7 @@ export default function Login() {
               alignItems: 'center',
             }}
         >
-          <Typography component="h1" variant="title" sx={{mb: 3}}>
+          <Typography component="h2" variant="title" sx={{mb: 3}}>
             Jun<Typography variant="span">Empower</Typography>
           </Typography>
           <ButtonGroup
@@ -82,7 +100,7 @@ export default function Login() {
             aria-label="Disabled elevation buttons"
             sx={{width: "100%"}}
             >
-                <Button color="secondary" sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700, borderRight: "none"}}>Register</Button>
+                <Button color="secondary" sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700}}>Register</Button>
                 <Button sx={{width: "50%", fontFamily: "Space Grotesk", fontWeight: 700}}>Login</Button>
             </ButtonGroup>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -137,8 +155,8 @@ export default function Login() {
                     // value={value}
                     // onChange={handleChange}
                   >
-                    <FormControlLabel value="developer" control={<Radio />} label="Remember me as developer" />
-                    <FormControlLabel value="company" control={<Radio />} label="Remember me as company" />
+                    <FormControlLabel value="developer" control={<Radio />} label="Remember me as a developer" />
+                    <FormControlLabel value="company" control={<Radio />} label="Remember me as a company" />
                   </RadioGroup>
                 </FormControl>
             <Box sx={{
