@@ -3,6 +3,7 @@ import App from "../App";
 import Profile from "../pages/UserProfile";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
+import AddRepo from "../pages/AddRepo";
 import RequireAuth from "./RequireAuth";
 import PrivateLayout from "../layout/PrivateLayout";
 
@@ -41,6 +42,10 @@ export const routes = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "addrepo",
+        element: <AddRepo />,
       },
       {
         path: "*",
