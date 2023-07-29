@@ -1,26 +1,18 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Container from '@mui/material/Container';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import HomeIcon from '@mui/icons-material/Home';
-import CommentIcon from '@mui/icons-material/Comment';
-import ReplyIcon from '@mui/icons-material/Reply';
-import SettingsIcon from '@mui/icons-material/Settings';
-import Fab from '@mui/material/Fab';
+import List from '@mui/material/List';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Divider, ListItem, ListItemText } from '@mui/material';
 
 
 const theme = createTheme({
@@ -39,7 +31,7 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-          main: "#FFBF46",
+          main: "#FFFFFF",
         },
         secondary: {
           main: "#EEEEEF",
@@ -50,6 +42,10 @@ const theme = createTheme({
 });
 
 export default function UserProfile() {
+  const [value, setValue] = useState("1");
+  const handleChange = (e, newValue) => {
+    setValue(newValue);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -57,16 +53,17 @@ export default function UserProfile() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            // alignItems: 'flex-end',
             backgroundColor: '#E0C591',
             padding: "2rem",
             borderRadius: "1rem",
+            minHeight: "90vh",
           }}
         >
                 <Box sx={{
                     display: "flex",
+                    flexWrap: "wrap",
+                    gap: 4,
+                    alignItems: "flex-start",
                     
                 }}>
                     <Box sx={{
@@ -77,33 +74,95 @@ export default function UserProfile() {
                       gap: 1.5,
 
                     }}>
-                    <Avatar alt="Remy Sharp" src="/images/avatar/1.jpg" sx={{ width: 300, height: 300 }} />
+                        <Avatar alt="Remy Sharp" src="/images/avatar/1.jpg" sx={{ width: 300, height: 300 }} />
                         <Typography component="h5" variant="title" sx={{mb: 0}}>
                             Remy Sharp
                         </Typography>
                         <Typography component="p" variant="text">
                             Accra, GHA
                         </Typography>
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 3, mb: 2, fontFamily: "DM Sans", fontWeight: 700, textTransform: "none" }}
+                          >
+                          Edit profile <DriveFileRenameOutlineIcon sx={{ml: 2}} />
+                      </Button>
+                    </Box>
+                    <Box sx={{maxWidth: "900px", width: "100%"}}>
+                      <TabContext 
+                      value={value}
+                      >
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                          <TabList 
+                          onChange={handleChange} 
+                          aria-label="lab API tabs example"
+                          centered
+                          >
+                            <Tab label="About me" value="1" />
+                            <Tab label="Skills" value="2" />
+                            <Tab label="Projects" value="3" />
+                          </TabList>
+                        </Box>
+                        <TabPanel value="1">
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor quisquam assumenda eaque. Distinctio iste officia sapiente suscipit iure. Dolorem, nostrum.
+                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut doloribus molestiae, repudiandae non nulla deserunt minima eaque quam possimus incidunt porro excepturi numquam culpa doloremque maiores sequi voluptates at iure deleniti quaerat nobis quae magnam. In laudantium aliquam necessitatibus nisi. Libero reprehenderit quam dolores dicta dolorum accusantium beatae repellendus explicabo.
+                        </TabPanel>
+                        <TabPanel value="2">
+                          <List>
+                            <ListItem>
+                              <ListItemText primary='Coding languages: Python, HTML5, JavaScript, CSS, PHP, SQL, C++, Ruby, .NET.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Coding languages:' secondary=' Python, HTML5, JavaScript, CSS, PHP, SQL, C++, Ruby, .NET.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Operating systems:' secondary=' Linux, Windows, masOS, Android, iOS.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Cloud computing:' secondary=' Azure, AWS, Google Cloud, Amazon Web, Kamatera, Oracle.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='eCommerce Platforms:' secondary='Shopify, WooCommerce, BigCommerce, Magento, OpenCart.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Network security:' secondary='Cloud security, malware analysis, intrusion detection, CEH, OSCP, CISA, GCIH, secude code development, data and file encryption.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Data analysis:' secondary='OLAP, data queries, data cube technology, raw data processing and integration, data structures and algorithms, Tableau.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary=' AI:' secondary='machine learning, natural language processing, AI integration and application.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Application and desktop software development:' secondary='Android/iOS Software Development Kit, Android/iOS UX and UI, SQL, Xcode development, Github, React.js, Angular.' />
+                            </ListItem>
+                            <Divider />
+                          </List>
+                        </TabPanel>
+                        <TabPanel value="3">
+                          <List>
+                            <ListItem>
+                              <ListItemText primary='JunEmpower' secondary='A platform for young IT professionals to showcase their work, get feedback and interact with employers.' />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemText primary='Lorem' secondary='Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor quisquam assumenda eaque. Distinctio iste officia sapiente suscipit iure. Dolorem, nostrum.' />
+                            </ListItem>
+                          </List>
+                        </TabPanel>
+                      </TabContext>
                     </Box>
                 </Box>
-                <TabContext 
-                // value={value}
-                >
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList 
-                    // onChange={handleChange} 
-                    aria-label="lab API tabs example">
-                      <Tab label="About me" value="1" />
-                      <Tab label="Skills" value="2" />
-                      <Tab label="Projects" value="3" />
-                    </TabList>
-                  </Box>
-                  <TabPanel value="1">
-                    
-                  </TabPanel>
-                  <TabPanel value="2">Item Two</TabPanel>
-                  <TabPanel value="3">Item Three</TabPanel>
-                </TabContext>
             </Box>
     </ThemeProvider>
   );
