@@ -1,4 +1,4 @@
-import { Typography, Grid, Button, TextField, styled } from "@mui/material";
+import { Typography, Grid, Button, TextField, styled, Pagination } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import CustomCard from "../components/CustomCard";
@@ -132,10 +132,10 @@ const Home = () => {
           </Grid>
 
           <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
-            <Button variant="contained" color="success" fullWidth>
+            <Button variant="contained" fullWidth sx={{fontFamily: "Space Grotesk", fontWeight: 700}}>
               <Link
                 to="/add-repo"
-                style={{ textDecoration: "none", color: "white" }}
+                style={{ textDecoration: "none", color: "#000000"}}
               >
                 Add your repo
               </Link>
@@ -181,6 +181,9 @@ const Home = () => {
               <RepoCard />
             </Grid>
           </GridStyle>
+        </Grid>
+        <Grid item xs={12} container justifyContent="center" alignItems="center" sx={{ px: "5%", pb: "3%" }}>
+          <Pagination count={10} color="primary" />
         </Grid>
       </ThemeProvider>
     </>
