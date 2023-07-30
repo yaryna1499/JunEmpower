@@ -12,6 +12,7 @@ import {
   Checkbox,
   Typography,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -61,6 +62,12 @@ export default function Register() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        <NavLink to="/" style={{paddingTop: "1rem", textDecoration: "none", display: "flex", alignItems: "center", cursor: "pointer"}}>
+          <ArrowBackIcon fontSize='large' sx={{border: "2px solid #FFBF46", borderRadius: "50%", color: "#000000"}} />
+          <Typography component="span" sx={{pl: 1.5, fontSize: "1.2rem", color: "#000000"}}>
+              Back to home page
+          </Typography>
+        </NavLink>
         <CssBaseline />
         <Box
           sx={{
