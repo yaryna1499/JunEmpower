@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 
-const PrivateLayout = ({ children }) => {
+const LayoutWithNavbar = ({ children }) => {
   return (
     <>
       <Navbar />
@@ -10,4 +10,4 @@ const PrivateLayout = ({ children }) => {
   );
 };
 
-export default PrivateLayout;
+export default LayoutWithNavbar;

@@ -5,7 +5,7 @@ import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
 import RequireAuth from "./RequireAuth";
-import PrivateLayout from "../layout/PrivateLayout";
+import LayoutWithNavbar from "../layout/LayoutWithNavbar";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -20,20 +20,18 @@ export const routes = createBrowserRouter([
       {
         index: true,
         element: (
-          <RequireAuth>
-            <PrivateLayout>
-              <Home />
-            </PrivateLayout>
-          </RequireAuth>
+          <LayoutWithNavbar>
+            <Home />
+          </LayoutWithNavbar>
         ),
       },
       {
         path: "profile",
         element: (
           <RequireAuth>
-            <PrivateLayout>
+            <LayoutWithNavbar>
               <Profile />
-            </PrivateLayout>
+            </LayoutWithNavbar>
           </RequireAuth>
         ),
       },
@@ -41,9 +39,9 @@ export const routes = createBrowserRouter([
         path: "add-repo",
         element: (
           <RequireAuth>
-            <PrivateLayout>
+            <LayoutWithNavbar>
               <AddRepo />
-            </PrivateLayout>
+            </LayoutWithNavbar>
           </RequireAuth>
         ),
       },
@@ -58,9 +56,9 @@ export const routes = createBrowserRouter([
       {
         path: "*",
         element: (
-          <PrivateLayout>
+          <LayoutWithNavbar>
             <NotFound />
-          </PrivateLayout>
+          </LayoutWithNavbar>
         ),
       },
     ],
