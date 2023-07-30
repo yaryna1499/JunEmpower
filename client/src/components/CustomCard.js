@@ -7,10 +7,15 @@ import {
   Divider,
   IconButton,
   Typography,
+  Button,
+  Box
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import icon from "../assets/github.png";
+import icon2 from "../assets/icons8-react-native-48.png";
+import icon3 from "../assets/icons8-material-ui-48.png";
+import icon4 from "../assets/icons8-redux-48.png";
 
 const CustomCard = ({
   iconBackground,
@@ -24,19 +29,41 @@ const CustomCard = ({
     <Card sx={{ mt: "1rem", mb: "1rem" }}>
       <CardHeader
         avatar={
-          <Avatar
-            sx={{ bgcolor: iconBackground }}
-            aria-label="recipe"
-          >
-            {title.charAt(0)}
+          <Avatar sx={{ bgcolor: iconBackground, fontSize: "10px" }} aria-label="recipe">
+            Avatar
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+        title={
+          <Typography
+            variant="h5"
+            sx={{
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              fontFamily: "Space Grotesk",
+            }}
+          >
+            {title}
+          </Typography>
         }
-        title={title}
+        action={
+          <Box display="flex">
+            <Avatar
+              src={icon2}
+              alt="Icon 2"
+              sx={{ width: 30, height: 30, marginRight: "10px" }}
+            />
+            <Avatar
+              src={icon3}
+              alt="Icon 3"
+              sx={{ width: 30, height: 30, marginRight: "10px" }}
+            />
+            <Avatar
+              src={icon4}
+              alt="Icon 4"
+              sx={{ width: 30, height: 30, marginRight: "10px" }}
+            />
+          </Box>
+        }
       />
       <Divider />
       <CardContent>
@@ -44,21 +71,33 @@ const CustomCard = ({
           {description}
         </Typography>
       </CardContent>
+
       <div
         style={{
+          width: "100%",
           display: "flex",
           alignItems: "center",
-          justifyContent: "end",
-          padding: "0.5rem",
+          justifyContent: "space-between",
         }}
       >
-        <div
+        <Button
+          size="small"
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
+            color: "rgb(102, 101, 101)",
+            backgroundColor: "#FFBF46",
+            marginLeft: "4%",
           }}
+          // component={RouteLink}
         >
+          GitHub Link
+          <img
+            src={icon}
+            alt="GitHub Icon"
+            style={{ marginLeft: "0.5rem", width: "1.2rem" }}
+          />
+        </Button>
+
+        <Box>
           <IconButton aria-label="add to favorites">
             <Typography variant="h6">20</Typography>
             <StarIcon sx={{ color: "orange" }} />
@@ -70,7 +109,7 @@ const CustomCard = ({
           >
             <ExpandMoreIcon />
           </IconButton>
-        </div>
+        </Box>
       </div>
       {expanded && (
         <CardContent>
