@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import {NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { 
@@ -15,6 +16,7 @@ import {
   RadioGroup,
   Radio,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -44,6 +46,11 @@ const theme = createTheme({
 });
 
 export default function Login() {
+  const [value, setValue] = useState('');
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  }
 
     const initialValues = {
         email: '',
@@ -63,6 +70,12 @@ export default function Login() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        <NavLink to="/" style={{paddingTop: "1rem", textDecoration: "none", display: "flex", alignItems: "center", cursor: "pointer"}}>
+          <ArrowBackIcon fontSize='large' sx={{border: "2px solid #FFBF46", borderRadius: "50%", color: "#000000"}} />
+          <Typography component="span" sx={{pl: 1.5, fontSize: "1.2rem", color: "#000000"}}>
+              Back to home page
+          </Typography>
+        </NavLink>
         <CssBaseline />
         <Box
           sx={{
@@ -132,8 +145,8 @@ export default function Login() {
                   <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
-                    // value={value}
-                    // onChange={handleChange}
+                    value={value}
+                    onChange={handleChange}
                   >
                     <FormControlLabel value="developer" control={<Radio />} label="Remember me as a developer" />
                     <FormControlLabel value="company" control={<Radio />} label="Remember me as a company" />

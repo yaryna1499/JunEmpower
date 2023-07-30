@@ -69,6 +69,18 @@ const Navbar = () => {
               >
                 Profile
               </Link>
+              <Link
+                to={"/login"}
+                style={{
+                  textDecoration: "none",
+                  marginLeft: "16px",
+                  color: "green",
+                  fontFamily: "DM Sans, sans-serif",
+                  fontSize: "20px",
+                }}
+              >
+                Login
+              </Link>
             </Typography>
           </Grid>
         </Grid>

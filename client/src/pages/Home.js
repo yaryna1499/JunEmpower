@@ -1,6 +1,6 @@
 import { Typography, Grid, Button, TextField, styled, Pagination } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CustomCard from "../components/CustomCard";
 import Slider from "../components/Slider";
 import RepoCard from "../components/RepoCard";
