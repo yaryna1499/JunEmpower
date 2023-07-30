@@ -13,9 +13,7 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import icon from "../assets/github.png";
-import icon2 from "../assets/icons8-react-native-48.png";
-import icon3 from "../assets/icons8-material-ui-48.png";
-import icon4 from "../assets/icons8-redux-48.png";
+import { icons } from "../lib/customData";
 
 const CustomCard = ({
   iconBackground,
@@ -26,10 +24,13 @@ const CustomCard = ({
   handleExpandClick,
 }) => {
   return (
-    <Card sx={{ mt: "1rem", mb: "1rem" }}>
+    <Card sx={{ mt: "1rem", mb: "2rem" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: iconBackground, fontSize: "10px" }} aria-label="recipe">
+          <Avatar
+            sx={{ bgcolor: iconBackground, fontSize: "10px" }}
+            aria-label="recipe"
+          >
             Avatar
           </Avatar>
         }
@@ -47,21 +48,14 @@ const CustomCard = ({
         }
         action={
           <Box display="flex">
-            <Avatar
-              src={icon2}
-              alt="Icon 2"
-              sx={{ width: 30, height: 30, marginRight: "10px" }}
-            />
-            <Avatar
-              src={icon3}
-              alt="Icon 3"
-              sx={{ width: 30, height: 30, marginRight: "10px" }}
-            />
-            <Avatar
-              src={icon4}
-              alt="Icon 4"
-              sx={{ width: 30, height: 30, marginRight: "10px" }}
-            />
+            {icons.map((icon) => (
+              <Avatar
+                key={icon.id}
+                src={icon.src}
+                alt={icon.alt}
+                sx={{ width: 30, height: 30, marginRight: "10px" }}
+              />
+            ))}
           </Box>
         }
       />
@@ -87,7 +81,6 @@ const CustomCard = ({
             backgroundColor: "#FFBF46",
             marginLeft: "4%",
           }}
-          // component={RouteLink}
         >
           GitHub Link
           <img

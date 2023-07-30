@@ -5,7 +5,7 @@ import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
 import RequireAuth from "./RequireAuth";
-import LayoutWithNavbar from "../layout/PrivateLayout";
+import LayoutWithNavbar from "../layout/LayoutWithNavbar";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
