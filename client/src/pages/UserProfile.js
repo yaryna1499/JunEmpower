@@ -124,10 +124,6 @@ export default function UserProfile() {
                             </ListItem>
                             <Divider />
                             <ListItem>
-                              <ListItemText primary='Coding languages:' secondary=' Python, HTML5, JavaScript, CSS, PHP, SQL, C++, Ruby, .NET.' />
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
                               <ListItemText primary='Operating systems:' secondary=' Linux, Windows, masOS, Android, iOS.' />
                             </ListItem>
                             <Divider />
