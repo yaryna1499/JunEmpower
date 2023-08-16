@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-#_b)vd8qc+dbj4n7z7)$863+cztv4ja#dgjf6kgr9%_&fylk@y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['your-domain.com', 'localhost', '127.0.0.1', '20dc-2a02-2378-1198-5a6a-d60-d92e-2f52-8653.ngrok-free.app']
+
 
 
 # Application definition
@@ -38,7 +39,35 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'corsheaders',
+    'rest_framework',
     "main",
+]
+
+
+# чтоб пока не использовать JWTTocken
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
+
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+}
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 
@@ -85,13 +114,24 @@ WSGI_APPLICATION = "JunEmpower.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+
 DATABASES = {
-    'default': {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'JunEmpower_db',
+    #     'USER': 'root',
+    #     'PASSWORD': 'wsxesz753951',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # }
+    
+        'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'freedb_PlatformDB',
-        'USER': 'freedb_platform',
-        'PASSWORD': '6vFEB5RaSw7U%uC',
-        'HOST': 'sql.freedb.tech',
+        'NAME': 'db_platform404',
+        'USER': 'dev',
+        'PASSWORD':'1234567890',
+        'HOST': '172.21.0.2', ## ip контейнера, можна дізнатися: docker inspect CONTAINER_ID_OR_NAME
         'PORT': '3306',
     }
 }
@@ -103,18 +143,21 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    # },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        'OPTIONS': {
+            'min_length': 4,
+        }
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    # },
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    # },
 ]
 
 
@@ -133,7 +176,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "media/"
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -141,3 +187,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'main.CustomUser'
+
+CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1', 'https://localhost', 'https://your-domain.com', 'https://20dc-2a02-2378-1198-5a6a-d60-d92e-2f52-8653.ngrok-free.app']
+
