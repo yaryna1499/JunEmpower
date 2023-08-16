@@ -25,8 +25,7 @@ SECRET_KEY = "django-insecure-#_b)vd8qc+dbj4n7z7)$863+cztv4ja#dgjf6kgr9%_&fylk@y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -38,35 +37,35 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'corsheaders',
-    'rest_framework',
+    "corsheaders",
+    "rest_framework",
     "main",
+    "drf_yasg",
 ]
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
         # 'rest_framework.permissions.IsAuthenticated',
-
     ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
     ],
 }
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 
@@ -86,7 +85,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "JunEmpower.urls"
@@ -114,7 +113,6 @@ WSGI_APPLICATION = "JunEmpower.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -127,8 +125,6 @@ DATABASES = {
 }
 
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -138,9 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-        'OPTIONS': {
-            'min_length': 4,
-        }
+        "OPTIONS": {
+            "min_length": 4,
+        },
     },
     # {
     #     "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -169,14 +165,13 @@ USE_TZ = True
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "media/"
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'main.CustomUser'
+AUTH_USER_MODEL = "main.CustomUser"
 
-CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1', 'https://localhost']
-
+CSRF_TRUSTED_ORIGINS = ["https://127.0.0.1", "https://localhost"]
