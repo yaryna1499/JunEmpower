@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-#_b)vd8qc+dbj4n7z7)$863+cztv4ja#dgjf6kgr9%_&fylk@y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['your-domain.com', 'localhost', '127.0.0.1', '20dc-2a02-2378-1198-5a6a-d60-d92e-2f52-8653.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 
@@ -117,22 +117,13 @@ WSGI_APPLICATION = "JunEmpower.wsgi.application"
 
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'JunEmpower_db',
-    #     'USER': 'root',
-    #     'PASSWORD': 'wsxesz753951',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    # }
-    
-        'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_platform404',
-        'USER': 'dev',
-        'PASSWORD':'1234567890',
-        'HOST': '172.21.0.2', ## ip контейнера, можна дізнатися: docker inspect CONTAINER_ID_OR_NAME
-        'PORT': '3306',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USERNAME"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT"),
     }
 }
 
@@ -188,5 +179,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
-CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1', 'https://localhost', 'https://your-domain.com', 'https://20dc-2a02-2378-1198-5a6a-d60-d92e-2f52-8653.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1', 'https://localhost']
 
