@@ -3,7 +3,6 @@ services:
   db:
     container_name: my_db
     image: mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db_platform404
@@ -11,8 +10,6 @@ services:
       - ./docker/db:/var/lib/mysql
     ports:
       - '3308:3306'
-    volumes:
-      - ./docker/db:/var/lib/mysql
     networks:
       - my-network
 

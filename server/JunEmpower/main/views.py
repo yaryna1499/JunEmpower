@@ -1,5 +1,4 @@
 import json
-
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -11,16 +10,14 @@ from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializer import CustomUserSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 
 
-class SignIn(APIView):
-    def post(self, request):
-        data = json.loads(request.body)
-        user = authenticate(username=data.get("username"), password=data.get("password"))
-        if user:
-            serializer_user = CustomUserSerializer(user)
-            return Response(serializer_user.data)
-        return JsonResponse({'message': 'Unsuccessfully!'})
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({"csrftoken": csrf_token})
+
 
 
 class UserApiView(generics.ListCreateAPIView):
@@ -38,5 +35,3 @@ class UserApiDestroy(generics.RetrieveDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
     # permission_classes = (IsAdminOrReadOnly, )
-
-
