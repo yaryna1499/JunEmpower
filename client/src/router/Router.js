@@ -4,12 +4,13 @@ import Profile from "../pages/UserProfile";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
-import RequireAuth from "./RequireAuth";
 import LayoutWithNavbar from "../layout/LayoutWithNavbar";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { ErrorPage } from "../error.page";
+import AuthenticatedLayout from "../layout/AuthenticatedLayout";
+
 
 export const routes = createBrowserRouter([
   {
@@ -28,21 +29,17 @@ export const routes = createBrowserRouter([
       {
         path: "profile",
         element: (
-          <RequireAuth>
-            <LayoutWithNavbar>
-              <Profile />
-            </LayoutWithNavbar>
-          </RequireAuth>
+          <AuthenticatedLayout>
+            <Profile />
+          </AuthenticatedLayout>
         ),
       },
       {
         path: "add-repo",
         element: (
-          <RequireAuth>
-            <LayoutWithNavbar>
-              <AddRepo />
-            </LayoutWithNavbar>
-          </RequireAuth>
+          <AuthenticatedLayout>
+            <AddRepo />
+          </AuthenticatedLayout>
         ),
       },
       {

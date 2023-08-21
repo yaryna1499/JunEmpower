@@ -1,14 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-
-const isAuthenticated = false; 
+import { useAuth } from "../context/AuthContext";
 
 const RequireAuth = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 
-  return children; 
+  return children;
 };
 
 export default RequireAuth;
