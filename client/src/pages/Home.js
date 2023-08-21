@@ -1,16 +1,10 @@
-import {
-  Typography,
-  Grid,
-  Button,
-  styled,
-  Pagination,
-} from "@mui/material";
+import { Typography, Grid, Button, styled, Pagination } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import CustomCard from "../components/CustomCard";
 import RepoCard from "../components/RepoCard";
 import { Link } from "react-router-dom";
-import { cardData, repoData } from "../lib/customData";
+import { cardData, repoData } from "../mockData/data";
 import AboutApplication from "../components/AboutApp";
 import SearchInput from "../components/SearchInput";
 

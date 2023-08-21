@@ -8,12 +8,12 @@ import {
   IconButton,
   Typography,
   Button,
-  Box
+  Box,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import icon from "../assets/github.png";
-import { icons } from "../lib/customData";
+import { icons } from "../mockData/data";
 
 const CustomCard = ({
   iconBackground,

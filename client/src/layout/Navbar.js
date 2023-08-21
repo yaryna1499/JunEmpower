@@ -1,91 +1,60 @@
-import { AppBar, Grid, Toolbar, Typography, Avatar } from "@mui/material";
+import { Grid, Toolbar, Typography, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
+import {
+  CustomTypography,
+  StyledAppBar,
+  StyledLink,
+} from "../muiStyles/navbar/navbar.styled";
 
 const Navbar = () => {
   return (
-    <AppBar
-      position="sticky"
-      style={{
-        backgroundColor: "#EFEFEE",
-        color: "black",
-        paddingLeft: "3%",
-        paddingRight: "3%",
-        boxSizing: "border-box",
-      }}
-    >
+    <StyledAppBar position="sticky">
       <Toolbar>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">
               <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
-                <Typography
-                  variant="title"
-                  sx={{
-                    fontFamily: "Space Grotesk",
-                    fontSize: "1.7rem",
-                    fontWeight: 700,
-                  }}
-                >
+                <CustomTypography fontWeight={700} variant="title">
                   Jun
                   <Typography variant="span" sx={{ color: "#8ACB88" }}>
                     Empower
                   </Typography>
-                </Typography>
+                </CustomTypography>
               </Link>
             </Typography>
           </Grid>
 
-          <Grid item>
+          <Grid item display="flex" alignItems="center">
             <Typography
               variant="subtitle1"
               color="black"
               sx={{ display: "flex", alignItems: "center" }}
             >
               <Avatar sx={{ marginRight: "0.6rem" }}>U</Avatar>
-              <Typography
+              <CustomTypography
+                fontWeight={500}
                 sx={{
-                  fontFamily: "Space Grotesk",
-                  fontWeight: 500,
                   fontSize: "14px",
                   paddingRight: "6vh",
                 }}
               >
                 Hello,
                 <br />
-                <span style={{ fontWeight: 700, fontSize: "17px" }}>
+                <Typography
+                  variant="span"
+                  sx={{ fontWeight: 700, fontSize: "17px" }}
+                >
                   My User Name
-                </span>
-              </Typography>
-
-              <Link
-                to={"/profile"}
-                style={{
-                  textDecoration: "none",
-                  marginLeft: "16px",
-                  color: "green",
-                  fontFamily: "DM Sans, sans-serif",
-                  fontSize: "20px",
-                }}
-              >
-                Profile
-              </Link>
-              <Link
-                to={"/login"}
-                style={{
-                  textDecoration: "none",
-                  marginLeft: "16px",
-                  color: "green",
-                  fontFamily: "DM Sans, sans-serif",
-                  fontSize: "20px",
-                }}
-              >
-                Login
-              </Link>
+                </Typography>
+              </CustomTypography>
             </Typography>
+
+            <StyledLink to={"/profile"}>Profile</StyledLink>
+            <StyledLink to={"/login"}>Login</StyledLink>
           </Grid>
         </Grid>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };
 
