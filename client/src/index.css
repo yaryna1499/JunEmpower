@@ -16,3 +16,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.active-link {
+  background-color: #FFBF46;
+  color: white;
+}
+
+.not-active {
+  background-color: grey;
+  color: white;
+}
