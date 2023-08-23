@@ -8,13 +8,13 @@ import {
 
 const Navbar = () => {
   return (
-    <StyledAppBar position="sticky">
+    <StyledAppBar position="fixed">
       <Toolbar>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">
               <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
-                <CustomTypography fontWeight={700} variant="title">
+                <CustomTypography fontWeight={700}>
                   Jun
                   <Typography variant="span" sx={{ color: "#8ACB88" }}>
                     Empower
@@ -30,12 +30,12 @@ const Navbar = () => {
               color="black"
               sx={{ display: "flex", alignItems: "center" }}
             >
-              <Avatar sx={{ marginRight: "0.6rem" }}>U</Avatar>
+              <Avatar sx={{ mr: "0.6rem" }}>U</Avatar>
               <CustomTypography
                 fontWeight={500}
                 sx={{
                   fontSize: "14px",
-                  paddingRight: "6vh",
+                  pr: "6vh",
                 }}
               >
                 Hello,

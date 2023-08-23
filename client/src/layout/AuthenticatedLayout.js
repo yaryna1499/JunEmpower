@@ -1,9 +1,10 @@
 import RequireAuth from "../router/RequireAuth";
-import LayoutWithNavbar from "../layout/LayoutWithNavbar";
+import Navbar from "./Navbar";
 
 const AuthenticatedLayout = ({ children }) => (
   <RequireAuth>
-    <LayoutWithNavbar>{children}</LayoutWithNavbar>
+    <Navbar />
+    {children}
   </RequireAuth>
 );
 

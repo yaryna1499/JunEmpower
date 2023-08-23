@@ -6,11 +6,12 @@ import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
 import LayoutWithNavbar from "../layout/LayoutWithNavbar";
 
-import Login from "../pages/Login";
-import Register from "../pages/Register";
 import { ErrorPage } from "../error.page";
 import AuthenticatedLayout from "../layout/AuthenticatedLayout";
-
+import LoginPage from "../pages/Login";
+import RegistrationPage from "../pages/Register";
+import { ThemeProvider } from "@mui/material";
+import { authTheme } from "../theme/theme";
 
 export const routes = createBrowserRouter([
   {
@@ -44,11 +45,19 @@ export const routes = createBrowserRouter([
       },
       {
         path: "login",
-        element: <Login />,
+        element: (
+          <ThemeProvider theme={authTheme}>
+            <LoginPage />
+          </ThemeProvider>
+        ),
       },
       {
         path: "register",
-        element: <Register />,
+        element: (
+          <ThemeProvider theme={authTheme}>
+            <RegistrationPage />
+          </ThemeProvider>
+        ),
       },
       {
         path: "*",

@@ -6,7 +6,7 @@ import RepoCard from "../components/RepoCard";
 import { Link } from "react-router-dom";
 import { cardData, repoData } from "../mockData/data";
 import AboutApplication from "../components/AboutApp";
-import SearchInput from "../components/SearchInput";
+import SearchInput from "../components/helper/SearchInput";
 
 const GridStyle = styled(Grid)(({ theme }) => ({
   marginTop: 1,
@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Grid container spacing={1} sx={{ px: "5%", pt: "3%" }}>
+        <Grid container spacing={1} sx={{ px: "5%", pt: "15vh" }}>
           <AboutApplication />
           <Grid item xs={4}>
             <Typography variant="h6" sx={{ fontSize: "14px", mb: "2vh" }}>
