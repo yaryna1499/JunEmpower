@@ -12,17 +12,12 @@ const BoxStyle = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
 
-  "& h4": {
-    paddingTop: "5vh",
-  },
-
   "& img": {
     maxWidth: 450,
   },
   "& .MuiButton-root": {
     backgroundColor: "#198416cd",
     color: "#fff",
-    marginTop: 20,
   },
 }));
 

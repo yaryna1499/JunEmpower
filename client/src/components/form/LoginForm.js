@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField, Button } from "@mui/material";
-import { loginValidationSchema } from "../../schemas/authSchemas";
+import { loginValidationSchema } from "../../utils/schemas/authSchemas";
 
 const LoginForm = ({ handleSubmit }) => {
   const initialValues = {

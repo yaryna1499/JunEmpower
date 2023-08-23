@@ -5,7 +5,7 @@ import CustomButton from "../components/helper/AuthButton";
 
 const AuthLayout = ({ children }) => {
   const location = useLocation();
-  const isRegisterPage = location.pathname === "/register";
+  const isRegisterPage = location.pathname === "/signup";
   const isLoginPage = location.pathname === "/login";
 
   return (
@@ -45,8 +45,8 @@ const AuthLayout = ({ children }) => {
           aria-label="Disabled elevation buttons"
           sx={{ width: "100%" }}
         >
-          <CustomButton to="/register" isActive={isRegisterPage}>
-            Register
+          <CustomButton to="/signup" isActive={isRegisterPage}>
+            Sign Up
           </CustomButton>
 
           <CustomButton to="/login" isActive={isLoginPage}>

@@ -1,10 +1,6 @@
 import { Grid, Toolbar, Typography, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-import {
-  CustomTypography,
-  StyledAppBar,
-  StyledLink,
-} from "../muiStyles/navbar/navbar.styled";
+import { CustomTypography, StyledAppBar, StyledLink } from "./navbar.styled";
 
 const Navbar = () => {
   return (

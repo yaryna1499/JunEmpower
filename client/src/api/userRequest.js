@@ -1,8 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
-const baseURL = "http://localhost:5000";
-const url = "https://c19a-77-222-156-110.ngrok-free.app/sign-in/"
-
+const baseURL = "";
+const url = "";
 
 export const postUserData = async (userData) => {
   try {

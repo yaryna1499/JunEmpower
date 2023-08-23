@@ -1,10 +1,11 @@
 import RequireAuth from "../router/RequireAuth";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
+import { Box } from "@mui/material";
 
 const AuthenticatedLayout = ({ children }) => (
   <RequireAuth>
     <Navbar />
-    {children}
+    <Box paddingTop="3rem">{children}</Box>
   </RequireAuth>
 );
 

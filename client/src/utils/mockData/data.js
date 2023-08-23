@@ -1,11 +1,11 @@
-import icon2 from "../assets/icons8-react-native-48.png";
-import icon3 from "../assets/icons8-material-ui-48.png";
-import icon4 from "../assets/icons8-redux-48.png";
-import repoImg from "../assets/Best Practices For eCommerce Website Design.png";
-import img1 from "../assets/2023-06-12 23_17_23-Menu _ Pizzeria.png";
-import img2 from "../assets/cardimg1.jpg";
-import img3 from "../assets/photo_2023-07-29_20-55-16.jpg";
-import img4 from "../assets/2023-07-29 21_41_06-Vite App.png";
+import icon2 from "../../assets/icons8-react-native-48.png";
+import icon3 from "../../assets/icons8-material-ui-48.png";
+import icon4 from "../../assets/icons8-redux-48.png";
+import repoImg from "../../assets/Best Practices For eCommerce Website Design.png";
+import img1 from "../../assets/2023-06-12 23_17_23-Menu _ Pizzeria.png";
+import img2 from "../../assets/cardimg1.jpg";
+import img3 from "../../assets/photo_2023-07-29_20-55-16.jpg";
+import img4 from "../../assets/2023-07-29 21_41_06-Vite App.png";
 
 export const icons = [
   { id: 1, src: icon2, alt: "Icon 2" },

@@ -1,20 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Typography, Box } from "@mui/material";
-import RegistrationForm from "../components/form/RegistrationForm";
-import { useAuth } from "../context/AuthContext";
+import { Typography } from "@mui/material";
+import RegistrationForm from "../../components/form/RegistrationForm";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import AuthLayout from "../layout/AuthLayout";
+import AuthLayout from "../../layout/AuthLayout";
+import { AuthBox } from "./auth.styled";
 
-const RegistrationPage = () => {
+const SignUp = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmitRegister = async (values) => {
-    console.log(values);
-    navigate("/");
+    // navigate("/");
     try {
-      // await login(values.email, values.password);
+      await register(values.username, values.email, values.password);
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -23,14 +23,7 @@ const RegistrationPage = () => {
   return (
     <AuthLayout>
       <RegistrationForm handleSubmit={handleSubmitRegister} />
-      <Box
-        sx={{
-          fontFamily: "Space Grotesk",
-          fontWeight: 700,
-          fontSize: "1.2rem",
-          marginTop: 8,
-        }}
-      >
+      <AuthBox>
         Have an account?
         <NavLink to="/login" style={{ textDecoration: "none" }}>
           <Typography
@@ -45,9 +38,9 @@ const RegistrationPage = () => {
             Login
           </Typography>
         </NavLink>
-      </Box>
+      </AuthBox>
     </AuthLayout>
   );
 };
 
-export default RegistrationPage;
+export default SignUp;

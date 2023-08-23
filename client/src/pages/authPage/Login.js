@@ -1,20 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Typography, Box, Link } from "@mui/material";
-import LoginForm from "../components/form/LoginForm";
-import { useAuth } from "../context/AuthContext";
+import LoginForm from "../../components/form/LoginForm";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import AuthLayout from "../layout/AuthLayout";
+import AuthLayout from "../../layout/AuthLayout";
+import { AuthBox } from "./auth.styled";
 
-const LoginPage = () => {
+const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (values) => {
-    console.log(values);
-    navigate("/");
+    // navigate("/");
     try {
-      // await login(values.email, values.password);
+      await login(values.email, values.password);
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -23,14 +23,7 @@ const LoginPage = () => {
   return (
     <AuthLayout>
       <LoginForm handleSubmit={handleSubmitLogin} />
-      <Box
-        sx={{
-          fontFamily: "Space Grotesk",
-          fontWeight: 700,
-          fontSize: "1.2rem",
-          marginTop: 8,
-        }}
-      >
+      <AuthBox>
         <Box>
           Forgot password?
           <Link
@@ -49,7 +42,7 @@ const LoginPage = () => {
         </Box>
         <Box>
           Don't have an account?
-          <NavLink to="/register" style={{ textDecoration: "none" }}>
+          <NavLink to="/signup" style={{ textDecoration: "none" }}>
             <Typography
               component="span"
               sx={{
@@ -63,9 +56,9 @@ const LoginPage = () => {
             </Typography>
           </NavLink>
         </Box>
-      </Box>
+      </AuthBox>
     </AuthLayout>
   );
 };
 
-export default LoginPage;
+export default Login;
