@@ -6,18 +6,22 @@ import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
 import LayoutWithNavbar from "../layout/LayoutWithNavbar";
 
-import { ErrorPage } from "../error.page";
 import AuthenticatedLayout from "../layout/AuthenticatedLayout";
-import LoginPage from "../pages/Login";
-import RegistrationPage from "../pages/Register";
+import LoginPage from "../pages/authPage/Login";
+import RegistrationPage from "../pages/authPage/SignUp";
 import { ThemeProvider } from "@mui/material";
-import { authTheme } from "../theme/theme";
+import { authTheme } from "../utils/theme/theme";
+import { routePaths } from "./routePaths";
 
 export const routes = createBrowserRouter([
   {
-    path: "/",
+    path: routePaths.base,
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: (
+      <LayoutWithNavbar>
+        <NotFound />
+      </LayoutWithNavbar>
+    ),
     children: [
       {
         index: true,
@@ -27,24 +31,10 @@ export const routes = createBrowserRouter([
           </LayoutWithNavbar>
         ),
       },
+
+      // Public routes
       {
-        path: "profile",
-        element: (
-          <AuthenticatedLayout>
-            <Profile />
-          </AuthenticatedLayout>
-        ),
-      },
-      {
-        path: "add-repo",
-        element: (
-          <AuthenticatedLayout>
-            <AddRepo />
-          </AuthenticatedLayout>
-        ),
-      },
-      {
-        path: "login",
+        path: routePaths.login,
         element: (
           <ThemeProvider theme={authTheme}>
             <LoginPage />
@@ -52,19 +42,29 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "register",
+        path: routePaths.signup,
         element: (
           <ThemeProvider theme={authTheme}>
             <RegistrationPage />
           </ThemeProvider>
         ),
       },
+
+      // Private routes
       {
-        path: "*",
+        path: routePaths.profile,
         element: (
-          <LayoutWithNavbar>
-            <NotFound />
-          </LayoutWithNavbar>
+          <AuthenticatedLayout>
+            <Profile />
+          </AuthenticatedLayout>
+        ),
+      },
+      {
+        path: routePaths.addRepo,
+        element: (
+          <AuthenticatedLayout>
+            <AddRepo />
+          </AuthenticatedLayout>
         ),
       },
     ],

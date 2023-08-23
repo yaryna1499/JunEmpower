@@ -1,11 +1,12 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
+import { Box } from "@mui/material";
 
 const LayoutWithNavbar = ({ children }) => {
   return (
     <>
       <Navbar />
-      {children}
+      <Box paddingTop="7rem">{children}</Box>
     </>
   );
 };

@@ -1,33 +1,31 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
 
-const url = "";
+const url = "https://yaryna1499.pythonanywhere.com";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
-  const handleAuthentication = async (username, password, endpoint) => {
+  const handleAuthentication = async (data, endpoint) => {
     try {
-      const response = await axios.post(`${url}${endpoint}`, {
-        username,
-        password,
-      });
-      const token = response.data.token;
-      localStorage.setItem("token", token);
-      setIsAuthenticated(true);
+      const response = await axios.post(`${url}${endpoint}`, data);
+      console.log(response);
+      // const token = response.data.token;
+      // localStorage.setItem("token", token);
+      // setIsAuthenticated(true);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const register = async (username,  email, password) => {
-    await handleAuthentication(username, password, "/register");
+  const register = async (username, email, password) => {
+    await handleAuthentication({ username, email, password }, "/register/");
   };
 
   const login = async (username, password) => {
-    await handleAuthentication(username, password, "/login");
+    await handleAuthentication({ username, password }, "/login");
   };
 
   const logout = () => {

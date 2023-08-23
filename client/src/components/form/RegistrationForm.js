@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField, Button } from "@mui/material";
-import { registrationValidationSchema } from "../../schemas/authSchemas";
+import { registrationValidationSchema } from "../../utils/schemas/authSchemas";
 
 const RegistrationForm = ({ handleSubmit }) => {
   const initialValues = {
@@ -24,6 +24,7 @@ const RegistrationForm = ({ handleSubmit }) => {
             variant="standard"
             margin="normal"
             label="Username"
+            autoComplete="username"
             fullWidth
             error={Boolean(touched.username && errors.username)}
             helperText={touched.username && errors.username}
@@ -64,7 +65,7 @@ const RegistrationForm = ({ handleSubmit }) => {
               fontWeight: 700,
             }}
           >
-            Register
+            Sign Up
           </Button>
         </Form>
       )}

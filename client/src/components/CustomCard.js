@@ -13,7 +13,7 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import icon from "../assets/github.png";
-import { icons } from "../mockData/data";
+import { icons } from "../utils/mockData/data";
 
 const CustomCard = ({
   iconBackground,
