@@ -11,13 +11,15 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmitLogin = async (values) => {
+  const handleSubmitLogin = (values) => {
     // navigate("/");
-    try {
-      await login(values.email, values.password);
-    } catch (error) {
-      console.error("Login error:", error);
-    }
+    // try {
+    //   await login(values.email, values.password);
+    // } catch (error) {
+    //   console.error("Login error:", error);
+    // }
+    login();
+    navigate("/profile");
   };
 
   return (

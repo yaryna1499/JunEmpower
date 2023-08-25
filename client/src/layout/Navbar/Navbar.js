@@ -1,8 +1,17 @@
-import { Grid, Toolbar, Typography, Avatar } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Grid, Toolbar, Typography, Avatar, Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomTypography, StyledAppBar, StyledLink } from "./navbar.styled";
+import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
@@ -20,7 +29,7 @@ const Navbar = () => {
             </Typography>
           </Grid>
 
-          <Grid item display="flex" alignItems="center">
+          <Grid item display="flex" alignItems="center" gap="1rem">
             <Typography
               variant="subtitle1"
               color="black"
@@ -46,7 +55,14 @@ const Navbar = () => {
             </Typography>
 
             <StyledLink to={"/profile"}>Profile</StyledLink>
-            <StyledLink to={"/login"}>Login</StyledLink>
+
+            {isAuthenticated ? (
+              <Button variant="outlined" onClick={handleLogout}>
+                Log out
+              </Button>
+            ) : (
+              <StyledLink to={"/login"}>Login</StyledLink>
+            )}
           </Grid>
         </Grid>
       </Toolbar>

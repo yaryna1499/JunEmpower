@@ -4,9 +4,9 @@ import Profile from "../pages/UserProfile";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
-import LayoutWithNavbar from "../layout/LayoutWithNavbar";
+import MainLayout from "../layout/MainLayout";
 
-import AuthenticatedLayout from "../layout/AuthenticatedLayout";
+import ProtectedRoute from "./ProtectedRoute";
 import LoginPage from "../pages/authPage/Login";
 import RegistrationPage from "../pages/authPage/SignUp";
 import { ThemeProvider } from "@mui/material";
@@ -18,17 +18,17 @@ export const routes = createBrowserRouter([
     path: routePaths.base,
     element: <App />,
     errorElement: (
-      <LayoutWithNavbar>
+      <MainLayout>
         <NotFound />
-      </LayoutWithNavbar>
+      </MainLayout>
     ),
     children: [
       {
         index: true,
         element: (
-          <LayoutWithNavbar>
+          <MainLayout>
             <Home />
-          </LayoutWithNavbar>
+          </MainLayout>
         ),
       },
 
@@ -54,17 +54,17 @@ export const routes = createBrowserRouter([
       {
         path: routePaths.profile,
         element: (
-          <AuthenticatedLayout>
+          <ProtectedRoute>
             <Profile />
-          </AuthenticatedLayout>
+          </ProtectedRoute>
         ),
       },
       {
         path: routePaths.addRepo,
         element: (
-          <AuthenticatedLayout>
+          <ProtectedRoute>
             <AddRepo />
-          </AuthenticatedLayout>
+          </ProtectedRoute>
         ),
       },
     ],

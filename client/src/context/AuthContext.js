@@ -6,7 +6,7 @@ const url = "https://yaryna1499.pythonanywhere.com";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleAuthentication = async (data, endpoint) => {
     try {
@@ -24,12 +24,13 @@ export const AuthProvider = ({ children }) => {
     await handleAuthentication({ username, email, password }, "/register/");
   };
 
-  const login = async (username, password) => {
-    await handleAuthentication({ username, password }, "/login");
+  const login = (username, password) => {
+    // await handleAuthentication({ username, password }, "/login");
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
     setIsAuthenticated(false);
   };
 

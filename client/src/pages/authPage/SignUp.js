@@ -3,16 +3,13 @@ import { NavLink } from "react-router-dom";
 import { Typography } from "@mui/material";
 import RegistrationForm from "../../components/form/RegistrationForm";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import AuthLayout from "../../layout/AuthLayout";
 import { AuthBox } from "./auth.styled";
 
 const SignUp = () => {
   const { register } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmitRegister = async (values) => {
-    // navigate("/");
     try {
       await register(values.username, values.email, values.password);
     } catch (error) {
