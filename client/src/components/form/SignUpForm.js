@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, FormControlLabel, Checkbox } from "@mui/material";
 import { registrationValidationSchema } from "../../utils/schemas/authSchemas";
 
 const RegistrationForm = ({ handleSubmit }) => {
@@ -52,6 +52,12 @@ const RegistrationForm = ({ handleSubmit }) => {
             autoComplete="new-password"
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
+          />
+          <FormControlLabel
+            control={
+              <Field name="agreeToProcessing" as={Checkbox} color="primary" />
+            }
+            label="I agree to the processing of my data"
           />
           <Button
             type="submit"

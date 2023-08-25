@@ -1,20 +1,29 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
-import RegistrationForm from "../../components/form/RegistrationForm";
+import RegistrationForm from "../../components/form/SignUpForm";
 import { useAuth } from "../../context/AuthContext";
 import AuthLayout from "../../layout/AuthLayout";
 import { AuthBox } from "./auth.styled";
+import { useState } from "react";
+import Modal from "../../components/helper/CustomModal";
 
 const SignUp = () => {
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const { register } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmitRegister = async (values) => {
     try {
       await register(values.username, values.email, values.password);
+      setIsSuccessModalOpen(true);
     } catch (error) {
       console.error("Registration error:", error);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsSuccessModalOpen(false);
+    navigate("/login");
   };
 
   return (
@@ -36,6 +45,11 @@ const SignUp = () => {
           </Typography>
         </NavLink>
       </AuthBox>
+
+      <Modal
+        isSuccessModalOpen={isSuccessModalOpen}
+        handleCloseModal={handleCloseModal}
+      />
     </AuthLayout>
   );
 };
