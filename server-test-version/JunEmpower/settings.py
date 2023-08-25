@@ -46,16 +46,13 @@ INSTALLED_APPS = [
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
-        # 'rest_framework.permissions.IsAuthenticated',
-    ],
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    ),
 }
 
+# ________________________________CORS SETTINGS__________________________________________
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
     "accept",
@@ -69,13 +66,12 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     # Add other origins as needed
 ]
 
-
+# _________________________________________________________________________________
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -114,13 +110,13 @@ WSGI_APPLICATION = "JunEmpower.wsgi.application"
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
-
+# ____________________AUTHENTIFICATION SETTINGS_____________________________
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -141,6 +137,8 @@ AUTH_PASSWORD_VALIDATORS = [
     #     "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     # },
 ]
+
+# _________________________________________________________________________________________
 
 
 # Internationalization
@@ -170,4 +168,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "main.CustomUser"
 
+
+# ________________CSRF SETTINGS________________________
 CSRF_TRUSTED_ORIGINS = ["http://", "https://"]
+CSRF_COOKIE_SECURE = True
+# ________________SESSION SETTINGS_____________________
+SESSION_COOKIE_SECURE = True

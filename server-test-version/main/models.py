@@ -17,6 +17,8 @@ class Technology(models.Model):
 
 
 class CustomUser(AbstractUser):
+    email = models.EmailField(("email address"), unique=True)
+
     profile_picture = models.ImageField(
         upload_to="uploads/profile/", blank=True, null=True
     )
@@ -24,8 +26,16 @@ class CustomUser(AbstractUser):
         Specialization, on_delete=models.SET_NULL, blank=True, null=True
     )
 
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['password']
+
     def __str__(self):
         return self.username
+
+    @classmethod
+    def user_exists(cls, email):
+        return cls.objects.filter(email=email).exists()
 
 
 class Project(models.Model):

@@ -18,10 +18,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomUser
         fields = [
+            "id",
             "username",
             "first_name",
             "last_name",
@@ -31,11 +31,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         ]
 
 
-
-
 class UserLoginSerializer(serializers.Serializer):
-	email = serializers.EmailField()
-	password = serializers.CharField()
-
-
-
+    username = serializers.CharField()
+    password = serializers.CharField()
