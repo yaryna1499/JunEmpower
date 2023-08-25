@@ -30,7 +30,19 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "password",
         ]
 
+    def create(self, validated_data):
+        password = validated_data.pop('password')  # Отримати пароль з даних
+
+        user = CustomUser(**validated_data)
+        user.set_password(password)  # Захешувати пароль
+        user.save()
+
+        return user
 
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
+
+
+
+    

@@ -53,62 +53,6 @@ class UserApiView(generics.ListCreateAPIView):
         return super().get_permissions()
 
 
-#___________________________________________________________________________________________________
-
-# class CustomLoginView(APIView):
-#     permission_classes = (permissions.AllowAny,)
-#     serializer_class = UserLoginSerializer
-
-#     @method_decorator(sensitive_post_parameters('password'))
-#     def dispatch(self, *args, **kwargs):
-#         return super(CustomLoginView, self).dispatch(*args, **kwargs)
-
-#     @swagger_auto_schema(
-#         operation_summary="Залогінитись",
-#         request_body=UserLoginSerializer,
-#         responses={200: "Logged in successfully.", 400: "Bad request!"},
-#         tags=['User'],
-#     )
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-        
-#         if serializer.is_valid():
-#             user = serializer.validated_data['user']
-            
-#             if user:
-#                 login(request, user)
-#                 return Response({'message': 'Авторизація успішна'}, status=status.HTTP_200_OK)
-#             else:
-#                 return Response({'message': 'Невірні дані авторизації'}, status=status.HTTP_400_BAD_REQUEST)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-# class UserLogout(LogoutView):
-#     permission_classes = (permissions.IsAuthenticated,)
-
-#     @swagger_auto_schema(
-#         operation_summary="Вилогінитись",
-#         manual_parameters=[
-#             openapi.Parameter(
-#                 'user_id',
-#                 openapi.IN_PATH,
-#                 type=openapi.TYPE_INTEGER,
-#                 description='ID користувача',
-#                 required=True,
-#             ),
-#         ],
-#         responses={200: "HTTP_200_OK"},
-#         tags=['User'],
-#     )
-#     def post(self, request):
-#         logout(request)
-#         return Response(status=status.HTTP_200_OK)
-
-
-#___________________________________________________________________________________
 
 class UserView(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
