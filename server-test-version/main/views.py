@@ -90,7 +90,7 @@ class UserApiUpdate(generics.RetrieveUpdateAPIView):
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    http_method_names = ['put']
+    http_method_names = ['patch']
 
 
 class UserApiDestroy(generics.RetrieveDestroyAPIView):
