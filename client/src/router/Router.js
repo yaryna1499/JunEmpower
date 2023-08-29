@@ -4,40 +4,41 @@ import Profile from "../pages/UserProfile";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import AddRepo from "../pages/AddRepo";
-import LayoutWithNavbar from "../layout/LayoutWithNavbar";
+import MainLayout from "../layout/MainLayout";
 
-import AuthenticatedLayout from "../layout/AuthenticatedLayout";
-import LoginPage from "../pages/authPage/Login";
-import RegistrationPage from "../pages/authPage/SignUp";
+import ProtectedRoute from "./ProtectedRoute";
 import { ThemeProvider } from "@mui/material";
 import { authTheme } from "../utils/theme/theme";
 import { routePaths } from "./routePaths";
+
+import SignUp from "../pages/authPage/SignUp";
+import SignIn from "../pages/authPage/SignIn";
 
 export const routes = createBrowserRouter([
   {
     path: routePaths.base,
     element: <App />,
     errorElement: (
-      <LayoutWithNavbar>
+      <MainLayout>
         <NotFound />
-      </LayoutWithNavbar>
+      </MainLayout>
     ),
     children: [
       {
         index: true,
         element: (
-          <LayoutWithNavbar>
+          <MainLayout>
             <Home />
-          </LayoutWithNavbar>
+          </MainLayout>
         ),
       },
 
       // Public routes
       {
-        path: routePaths.login,
+        path: routePaths.signin,
         element: (
           <ThemeProvider theme={authTheme}>
-            <LoginPage />
+            <SignIn />
           </ThemeProvider>
         ),
       },
@@ -45,7 +46,7 @@ export const routes = createBrowserRouter([
         path: routePaths.signup,
         element: (
           <ThemeProvider theme={authTheme}>
-            <RegistrationPage />
+            <SignUp />
           </ThemeProvider>
         ),
       },
@@ -54,17 +55,17 @@ export const routes = createBrowserRouter([
       {
         path: routePaths.profile,
         element: (
-          <AuthenticatedLayout>
+          <ProtectedRoute>
             <Profile />
-          </AuthenticatedLayout>
+          </ProtectedRoute>
         ),
       },
       {
         path: routePaths.addRepo,
         element: (
-          <AuthenticatedLayout>
+          <ProtectedRoute>
             <AddRepo />
-          </AuthenticatedLayout>
+          </ProtectedRoute>
         ),
       },
     ],

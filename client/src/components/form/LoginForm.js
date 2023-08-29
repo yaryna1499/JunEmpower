@@ -1,12 +1,15 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button } from "@mui/material";
+import { TextField, Checkbox } from "@mui/material";
 import { loginValidationSchema } from "../../utils/schemas/authSchemas";
+import CustomButton from "./CustomFormBtn";
+import { StyledFormControlLabel, style } from "./styleHelper";
 
 const LoginForm = ({ handleSubmit }) => {
   const initialValues = {
     email: "",
     password: "",
+    agreeToProcessing: false,
   };
 
   return (
@@ -20,7 +23,7 @@ const LoginForm = ({ handleSubmit }) => {
           <Field
             name="email"
             as={TextField}
-            variant="standard"
+            variant="outlined"
             margin="normal"
             label="Email Address"
             type="email"
@@ -28,11 +31,12 @@ const LoginForm = ({ handleSubmit }) => {
             autoComplete="email"
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+            InputProps={style}
           />
           <Field
             name="password"
             as={TextField}
-            variant="standard"
+            variant="outlined"
             margin="normal"
             label="Password"
             type="password"
@@ -40,21 +44,21 @@ const LoginForm = ({ handleSubmit }) => {
             autoComplete="current-password"
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
+            InputProps={style}
           />
-          <Button
+          <StyledFormControlLabel
+            sx={{ mt: "2%" }}
+            control={<Checkbox name="agreeToProcessing" color="primary" />}
+            label="By checking this box, you agree to our Terms of Service Privacy Policy "
+          />
+          <CustomButton
             type="submit"
             fullWidth
             variant="contained"
             disabled={isSubmitting}
-            sx={{
-              mt: 3,
-              mb: 2,
-              fontFamily: "Space Grotesk",
-              fontWeight: 700,
-            }}
           >
             Sign In
-          </Button>
+          </CustomButton>
         </Form>
       )}
     </Formik>

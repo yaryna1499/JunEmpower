@@ -1,7 +1,9 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button } from "@mui/material";
+import { TextField, Checkbox } from "@mui/material";
 import { registrationValidationSchema } from "../../utils/schemas/authSchemas";
+import CustomFormButton from "./CustomFormBtn";
+import { StyledFormControlLabel, style } from "./styleHelper";
 
 const RegistrationForm = ({ handleSubmit }) => {
   const initialValues = {
@@ -21,18 +23,19 @@ const RegistrationForm = ({ handleSubmit }) => {
           <Field
             name="username"
             as={TextField}
-            variant="standard"
+            variant="outlined"
             margin="normal"
             label="Username"
             autoComplete="username"
             fullWidth
             error={Boolean(touched.username && errors.username)}
             helperText={touched.username && errors.username}
+            InputProps={style}
           />
           <Field
             name="email"
             as={TextField}
-            variant="standard"
+            variant="outlined"
             margin="normal"
             label="Email Address"
             type="email"
@@ -40,11 +43,12 @@ const RegistrationForm = ({ handleSubmit }) => {
             autoComplete="email"
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+            InputProps={style}
           />
           <Field
             name="password"
             as={TextField}
-            variant="standard"
+            variant="outlined"
             margin="normal"
             label="Password"
             type="password"
@@ -52,21 +56,21 @@ const RegistrationForm = ({ handleSubmit }) => {
             autoComplete="new-password"
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
+            InputProps={style}
           />
-          <Button
+          <StyledFormControlLabel
+            sx={{ mt: "2%" }}
+            control={<Checkbox name="agreeToProcessing" color="primary" />}
+            label="By checking this box, you agree to our Terms of Service Privacy Policy "
+          />
+          <CustomFormButton
             type="submit"
             fullWidth
             variant="contained"
             disabled={isSubmitting}
-            sx={{
-              mt: 3,
-              mb: 2,
-              fontFamily: "Space Grotesk",
-              fontWeight: 700,
-            }}
           >
             Sign Up
-          </Button>
+          </CustomFormButton>
         </Form>
       )}
     </Formik>

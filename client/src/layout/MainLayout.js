@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./Navbar/Navbar";
 import { Box } from "@mui/material";
 
-const LayoutWithNavbar = ({ children }) => {
+const MainLayout = ({ children }) => {
   return (
     <>
       <Navbar />
@@ -11,4 +11,4 @@ const LayoutWithNavbar = ({ children }) => {
   );
 };
 
-export default LayoutWithNavbar;
+export default MainLayout;

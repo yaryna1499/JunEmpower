@@ -1,22 +1,30 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const url = "https://yaryna1499.pythonanywhere.com";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [setCookie, removeCookie] = useCookies(["token"]);
 
   const handleAuthentication = async (data, endpoint) => {
     try {
       const response = await axios.post(`${url}${endpoint}`, data);
       console.log(response);
-      // const token = response.data.token;
-      // localStorage.setItem("token", token);
-      // setIsAuthenticated(true);
+      if (endpoint === "/login/") {
+        console.log(response);
+        const token = response.data.access_token;
+        setCookie("token", token, { path: "/" });
+        setIsAuthenticated(true);
+      }
+
+      return response;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 
@@ -25,11 +33,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (username, password) => {
-    await handleAuthentication({ username, password }, "/login");
+    await handleAuthentication({ username, password }, "/login/");
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    removeCookie("token");
     setIsAuthenticated(false);
   };
 
