@@ -13,8 +13,9 @@ export const AuthProvider = ({ children }) => {
   const handleAuthentication = async (data, endpoint) => {
     try {
       const response = await axios.post(`${url}${endpoint}`, data);
-
+      console.log(response);
       if (endpoint === "/login/") {
+        console.log(response);
         const token = response.data.access_token;
         setCookie("token", token, { path: "/" });
         setIsAuthenticated(true);

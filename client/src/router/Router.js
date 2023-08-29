@@ -7,11 +7,12 @@ import AddRepo from "../pages/AddRepo";
 import MainLayout from "../layout/MainLayout";
 
 import ProtectedRoute from "./ProtectedRoute";
-import LoginPage from "../pages/authPage/Login";
-import RegistrationPage from "../pages/authPage/SignUp";
 import { ThemeProvider } from "@mui/material";
 import { authTheme } from "../utils/theme/theme";
 import { routePaths } from "./routePaths";
+
+import SignUp from "../pages/authPage/SignUp";
+import SignIn from "../pages/authPage/SignIn";
 
 export const routes = createBrowserRouter([
   {
@@ -34,10 +35,10 @@ export const routes = createBrowserRouter([
 
       // Public routes
       {
-        path: routePaths.login,
+        path: routePaths.signin,
         element: (
           <ThemeProvider theme={authTheme}>
-            <LoginPage />
+            <SignIn />
           </ThemeProvider>
         ),
       },
@@ -45,7 +46,7 @@ export const routes = createBrowserRouter([
         path: routePaths.signup,
         element: (
           <ThemeProvider theme={authTheme}>
-            <RegistrationPage />
+            <SignUp />
           </ThemeProvider>
         ),
       },

@@ -4,7 +4,7 @@ const route = (routePath) => `${BASE_APP_PATH}${routePath}`;
 
 export const routePaths = {
   base: route(""),
-  login: route("login"),
+  signin: route("signin"),
   signup: route("signup"),
 
   profile: route("profile"),

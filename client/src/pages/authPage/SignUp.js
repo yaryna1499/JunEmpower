@@ -1,56 +1,38 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Typography, Box, Link } from "@mui/material";
 import RegistrationForm from "../../components/form/SignUpForm";
 import { useAuth } from "../../context/AuthContext";
-import AuthLayout from "../../layout/AuthLayout";
-import { AuthBox } from "./auth.styled";
-import { useState } from "react";
-import Modal from "../../components/helper/CustomModal";
+import { AuthContainer } from "./auth.styled";
 
 const SignUp = () => {
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmitRegister = async (values) => {
     try {
       await register(values.username, values.email, values.password);
-      setIsSuccessModalOpen(true);
+      navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
     }
   };
 
-  const handleCloseModal = () => {
-    setIsSuccessModalOpen(false);
-    navigate("/login");
-  };
-
   return (
-    <AuthLayout>
-      <RegistrationForm handleSubmit={handleSubmitRegister} />
-      <AuthBox>
-        Have an account?
-        <NavLink to="/login" style={{ textDecoration: "none" }}>
-          <Typography
-            component="span"
-            sx={{
-              pl: 1.5,
-              fontSize: "1.2rem",
-              color: "#007AFF",
-              "&:hover": { textDecoration: "underline" },
-            }}
-          >
-            Login
-          </Typography>
-        </NavLink>
-      </AuthBox>
+    <AuthContainer>
+      <Box display="flex" flexDirection="column" gap="20px">
+        <Typography component="h1" variant="title">
+          Sign up*
+        </Typography>
+        <RegistrationForm handleSubmit={handleSubmitRegister} />
 
-      <Modal
-        isSuccessModalOpen={isSuccessModalOpen}
-        handleCloseModal={handleCloseModal}
-      />
-    </AuthLayout>
+        <Typography sx={{ textAlign: "center" }}>
+          Have an account?
+          <Link href="/signin" variant="body2" sx={{ pl: "2%" }}>
+            {"Sign In"}
+          </Link>
+        </Typography>
+      </Box>
+    </AuthContainer>
   );
 };
 

@@ -3,18 +3,17 @@ import { createTheme } from "@mui/material";
 export const authTheme = createTheme({
   typography: {
     title: {
-      fontFamily: "Space Grotesk",
-      fontSize: "3rem",
-      fontWeight: 700,
+      fontSize: 32,
+      fontWeight: "600",
+      fontFamily: "Kodchasan, sans-serif",
     },
   },
   palette: {
     primary: {
-      main: "#FFBF46",
+      main: "#00204A",
     },
     secondary: {
       main: "#EEEEEF",
     },
   },
 });
-
