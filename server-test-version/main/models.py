@@ -17,7 +17,7 @@ class Technology(models.Model):
 
 
 class CustomUser(AbstractUser):
-    # email = models.EmailField(("email address"), unique=True)  #це не потрібно, є вже таке поле в стандартному юзері від якого наслідуємось
+    email = models.EmailField(unique=True)
 
     profile_picture = models.ImageField(
         upload_to="uploads/profile/", blank=True, null=True

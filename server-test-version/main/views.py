@@ -12,8 +12,8 @@ from drf_yasg import openapi
 from rest_framework import generics
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
-
-from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth import authenticate, login, logout
 from .serializers import UserRegisterSerializer, UserLoginSerializer, CustomUserSerializer
 from .models import CustomUser
 from .permissions import IsOwnerOrReadOnly
@@ -23,6 +23,31 @@ from .pagination import CustomSetPagination
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({"csrftoken": csrf_token})
+
+
+class CustomLogoutView(APIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            logout_view = LogoutView.as_view()
+            response = logout_view(request)
+            if response.status_code == status.HTTP_200_OK:
+                return Response({'message': 'Вы успешно вышли из системы'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Не удалось выполнить выход'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'Пользователь не аутентифицирован'}, status=status.HTTP_401_UNAUTHORIZED)
+    # def logout(self, request):
+    #     """
+    #     Выход пользователя из системы.
+    #     """
+    #     user = request.user
+    #     if user.is_authenticated:
+    #         # Выход из системы через метод logout
+    #         from django.contrib.auth import logout
+    #         logout(request)
+    #         return Response({'message': 'Вы успешно вышли из системы'}, status=status.HTTP_200_OK)
+    #     else:
+    #         return Response({'error': 'Пользователь не аутентифицирован'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class LoginView(APIView):
@@ -108,7 +133,7 @@ class UserApiView(generics.ListCreateAPIView):
 
 
 class UserApiUpdate(generics.RetrieveUpdateAPIView):
-    permission_classes = (IsOwnerOrReadOnly,)   # тут не можна IsAuthenticated, то зможе кожен залогінений юзер змінити іншого користувача додав кастомний пермісіонс, який перевіряє що цей об'єкт який змінюється дорівнює залогіненному юзеру
+    permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticated,)   # тут не можна IsAuthenticated, то зможе кожен залогінений юзер змінити іншого користувача додав кастомний пермісіонс, який перевіряє що цей об'єкт який змінюється дорівнює залогіненному юзеру
     """
     Оновлення користувача(редагування профілю).
     ---
@@ -119,7 +144,7 @@ class UserApiUpdate(generics.RetrieveUpdateAPIView):
 
 
 class UserApiDestroy(generics.RetrieveDestroyAPIView):
-    permission_classes = (IsOwnerOrReadOnly,)  # теж саме
+    permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticated,)  # теж саме
     """
     Видалення користувача.
     ---
