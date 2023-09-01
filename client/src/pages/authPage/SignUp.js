@@ -11,7 +11,7 @@ const SignUp = () => {
   const handleSubmitRegister = async (values) => {
     try {
       await register(values.username, values.email, values.password);
-      navigate("/login");
+      navigate("/signin");
     } catch (error) {
       console.error("Registration error:", error);
     }

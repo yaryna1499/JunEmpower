@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/signin");
   };
 
   return (
@@ -61,7 +61,7 @@ const Navbar = () => {
                 Log out
               </Button>
             ) : (
-              <StyledLink to={"/login"}>Login</StyledLink>
+              <StyledLink to={"/signin"}>Sign In</StyledLink>
             )}
           </Grid>
         </Grid>
