@@ -5,6 +5,13 @@ import reportWebVitals from "./reportWebVitals";
 import { RouterProvider } from "react-router-dom";
 import { routes } from "./router/Router";
 import { AuthProvider } from "./context/AuthContext";
+import axios from "axios";
+
+axios.defaults.withCredentials = true; // even for get requests if
+// demand session authentication
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "x-csrftoken";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

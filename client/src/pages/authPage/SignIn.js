@@ -9,8 +9,9 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (values) => {
+    console.log(values);
     try {
-      await login(values.username, values.password);
+      await login(values.email, values.password);
       navigate("/profile");
     } catch (error) {
       console.error("Login error:", error);
