@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser
 
-
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -39,9 +38,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
 
 
 

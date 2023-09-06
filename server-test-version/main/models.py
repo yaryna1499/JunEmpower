@@ -29,13 +29,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-    # USERNAME_FIELD = 'Email or Username'
-    # REQUIRED_FIELDS = ['Password']
-
-
-    # @classmethod                                   для чого це? мабудь були проблеми з полем email того шо воно вже є..
-    # def user_exists(cls, email):
-    #     return cls.objects.filter(email=email).exists()
 
 
 class Project(models.Model):
