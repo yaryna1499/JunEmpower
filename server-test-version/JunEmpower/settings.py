@@ -80,6 +80,7 @@ CORS_ALLOW_HEADERS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     # Add other origins as needed
+    "https://strong-medovik-b79ef2.netlify.app",
 ]
 
 # _________________________________________________________________________________
