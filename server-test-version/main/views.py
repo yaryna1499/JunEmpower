@@ -2,11 +2,10 @@
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import permissions
 from rest_framework import generics
-from .serializers import UserRegisterSerializer, CustomUserSerializer
-from .models import CustomUser
+from .serializers import *
+from .models import *
 from .permissions import IsOwnerOrReadOnly
 from .pagination import CustomSetPagination
-
 
 
 class UserApiView(generics.ListCreateAPIView):
@@ -43,7 +42,6 @@ class UserApiView(generics.ListCreateAPIView):
         return super().get_permissions()
 
 
-
 class UserApiUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticated,)
     """
@@ -63,3 +61,10 @@ class UserApiDestroy(generics.RetrieveDestroyAPIView):
     serializer_class = CustomUserSerializer
     http_method_names = ['get', 'delete']
 
+#_____________________________post's_view_____________________________________#
+
+
+class TechnologyView(generics.ListCreateAPIView):
+    queryset = Technology.objects.all()
+    serializer_class = TechnologySerializer
+    pagination_class = (permissions.IsAuthenticatedOrReadOnly,)

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, ProjectImage, Project, Technology
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,6 +40,29 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectImage
+        fields = ('id', 'project', 'image', 'is_main')
 
 
-    
+class TechnologySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Technology
+        fields = ('id', 'title')
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    technology = TechnologySerializer(read_only=True, many=True)
+    images = ImageSerializer(read_only=True, many=True)
+    author = CustomUserSerializer(read_only=True)
+
+    class Meta:
+        model = Project
+        fields = ['id', 'title', 'description', 'technology', 'author', 'images']
+
+
+class ProjectCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ['title', 'description', 'technology']

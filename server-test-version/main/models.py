@@ -10,10 +10,11 @@ class Specialization(models.Model):
 
 
 class Technology(models.Model):
-    technology = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    slug = models.CharField(max_length=100, unique=True, default="slug")
 
     def __str__(self):
-        return self.technology
+        return self.title
 
 
 class CustomUser(AbstractUser):
@@ -30,10 +31,9 @@ class CustomUser(AbstractUser):
         return self.username
 
 
-
 class Project(models.Model):
-    author_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
-    name = models.CharField(max_length=100)
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
+    title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
     technology = models.ForeignKey(Technology, on_delete=models.SET_NULL, blank=True, null=True)
     tags = models.TextField(max_length=500, blank=True, null=True)
