@@ -2,12 +2,16 @@
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import permissions
 from rest_framework import generics
-from .serializers import UserRegisterSerializer, CustomUserSerializer
+from .serializers import UserRegisterSerializer, CustomUserSerializer, MyTokenObtainPairSerializer
 from .models import CustomUser
 from .permissions import IsOwnerOrReadOnly
 from .pagination import CustomSetPagination
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 class UserApiView(generics.ListCreateAPIView):
     pagination_class = CustomSetPagination
