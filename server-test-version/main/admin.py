@@ -14,3 +14,5 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(CustomUser)
 admin.site.register(Project, PostAdmin)
+admin.site.register(Specialization)
+admin.site.register(Technology)

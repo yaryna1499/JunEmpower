@@ -2,10 +2,18 @@
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import permissions
 from rest_framework import generics
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .serializers import *
 from .models import *
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly, IsOwnerProjectOrReadOnly
 from .pagination import CustomSetPagination
+from rest_framework import status
+from rest_framework.response import Response
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 class UserApiView(generics.ListCreateAPIView):
@@ -38,12 +46,23 @@ class UserApiView(generics.ListCreateAPIView):
         Визначення класів дозволів в залежності від методу запиту.
         """
         if self.request.method == 'POST':
+
             return [permissions.AllowAny()]
         return super().get_permissions()
+
+    def create(self, request, *args, **kwargs):
+        #переопределяємо статус з 400 на  409
+        try:
+            response = super().create(request, *args, **kwargs)
+            return response
+        except serializers.ValidationError as e:
+            error_data = e.detail
+            return Response(error_data, status=status.HTTP_409_CONFLICT)
 
 
 class UserApiUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticated,)
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
     """
     Оновлення користувача(редагування профілю).
     """
@@ -61,10 +80,79 @@ class UserApiDestroy(generics.RetrieveDestroyAPIView):
     serializer_class = CustomUserSerializer
     http_method_names = ['get', 'delete']
 
-#_____________________________post's_view_____________________________________#
+
+class SpecializationApiView(generics.ListAPIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    pagination_class = None
+    """
+    Готовий список спеціальностей.
+    """
+    queryset = Specialization.objects.all()
+    serializer_class = SpecializationSerializer
 
 
-class TechnologyView(generics.ListCreateAPIView):
+#_____________________________project's_view_____________________________________#
+
+
+class TechnologyApiView(generics.ListCreateAPIView):
     queryset = Technology.objects.all()
     serializer_class = TechnologySerializer
-    pagination_class = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
+
+
+class ProjectApiView(generics.ListCreateAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    pagination_class = CustomSetPagination
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return ProjectCreateSerializer
+        return self.serializer_class
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['context'] = self.get_serializer_context()
+        return self.get_serializer_class()(*args, **kwargs)
+
+
+class ProjectUpdateApiView(generics.RetrieveUpdateAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectCreateSerializer
+    pagination_class = (IsOwnerProjectOrReadOnly, )   #перевірити
+    http_method_names = ['get', 'patch']
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return ProjectSerializer
+        return self.serializer_class
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['context'] = self.get_serializer_context()
+        return self.get_serializer_class()(*args, **kwargs)
+
+
+class ProjectDeleteApiView(generics.DestroyAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    pagination_class = (IsOwnerProjectOrReadOnly, ) #перевірити
+
+
+class ImageApiView(generics.ListCreateAPIView):
+    parser_classes = (MultiPartParser, FormParser)
+    queryset = ProjectImage.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+class ImageDeleteApiView(generics.DestroyAPIView):
+    parser_classes = (MultiPartParser, FormParser)
+    queryset = ProjectImage.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
