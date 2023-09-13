@@ -25,7 +25,7 @@ class CustomUser(AbstractUser):
         upload_to="uploads/profile/", blank=True, null=True
     )
     specialization = models.ManyToManyField(
-        Specialization, blank=True, null=True
+        Specialization, blank=True
     )
 
     def __str__(self):
@@ -36,7 +36,7 @@ class Project(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
-    technology = models.ManyToManyField(Technology, blank=True, null=True)
+    technology = models.ManyToManyField(Technology, blank=True)
     tags = models.TextField(max_length=500, blank=True, null=True)
 
     @property
@@ -57,7 +57,7 @@ class ProjectImage(models.Model):
     is_main = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Image id: {self.id} for post id: {self.project}"
+        return f"Image id: {self.id} for project id: {self.project}"
 
 
 class Like(models.Model):
@@ -66,7 +66,7 @@ class Like(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('author_id', 'project')  # це потрібно щоб один юзер міг поставити під конкретним постом тільки один лайк.
+        unique_together = ('author', 'project')  # це потрібно щоб один юзер міг поставити під конкретним постом тільки один лайк.
 
 
 class Comment(models.Model):

@@ -9,8 +9,11 @@ drf-yasg==1.21.7
 Faker==19.5.0
 inflection==0.5.1
 Markdown==3.4.4
+numpy==1.25.2
 packaging==23.1
+pandas==2.1.0
 Pillow==10.0.0
+psycopg2==2.9.7
 PyJWT==2.8.0
 python-dateutil==2.8.2
 pytz==2023.3

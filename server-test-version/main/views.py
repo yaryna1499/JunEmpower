@@ -16,9 +16,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
 class UserApiView(generics.ListCreateAPIView):
     pagination_class = CustomSetPagination
     parser_classes = (JSONParser, MultiPartParser, FormParser)
@@ -98,6 +95,7 @@ class SpecializationApiView(generics.ListAPIView):
 
 
 class TechnologyApiView(generics.ListCreateAPIView):
+    pagination_class = None
     queryset = Technology.objects.all()
     serializer_class = TechnologySerializer
     permission_classes = (IsAdminOrReadOnly,)
@@ -125,7 +123,7 @@ class ProjectApiView(generics.ListCreateAPIView):
 class ProjectUpdateApiView(generics.RetrieveUpdateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectCreateSerializer
-    pagination_class = (IsOwnerProjectOrReadOnly, )   #перевірити
+    permission_classes = (IsOwnerProjectOrReadOnly, )   #перевірити
     http_method_names = ['get', 'patch']
 
     def perform_create(self, serializer):
@@ -144,7 +142,7 @@ class ProjectUpdateApiView(generics.RetrieveUpdateAPIView):
 class ProjectDeleteApiView(generics.DestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    pagination_class = (IsOwnerProjectOrReadOnly, ) #перевірити
+    permission_classes = (IsOwnerProjectOrReadOnly, ) #перевірити
 
 
 class ImageApiView(generics.ListCreateAPIView):
