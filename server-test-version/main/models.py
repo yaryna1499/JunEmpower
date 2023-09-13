@@ -3,17 +3,19 @@ from django.db import models
 
 
 class Specialization(models.Model):
-    specialization = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    slug = models.CharField(max_length=100, unique=True, default="slug")
 
     def __str__(self):
-        return self.specialization
+        return self.title
 
 
 class Technology(models.Model):
-    technology = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    slug = models.CharField(max_length=100, unique=True, default="slug")
 
     def __str__(self):
-        return self.technology
+        return self.title
 
 
 class CustomUser(AbstractUser):
@@ -22,20 +24,19 @@ class CustomUser(AbstractUser):
     profile_picture = models.ImageField(
         upload_to="uploads/profile/", blank=True, null=True
     )
-    specialization_id = models.ForeignKey(
-        Specialization, on_delete=models.SET_NULL, blank=True, null=True
+    specialization = models.ManyToManyField(
+        Specialization, blank=True, null=True
     )
 
     def __str__(self):
         return self.username
 
 
-
 class Project(models.Model):
-    author_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
-    name = models.CharField(max_length=100)
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
+    title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
-    technology = models.ForeignKey(Technology, on_delete=models.SET_NULL, blank=True, null=True)
+    technology = models.ManyToManyField(Technology, blank=True, null=True)
     tags = models.TextField(max_length=500, blank=True, null=True)
 
     @property
@@ -56,11 +57,11 @@ class ProjectImage(models.Model):
     is_main = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Image id: {self.id} for post id: {self.post}"
+        return f"Image id: {self.id} for post id: {self.project}"
 
 
 class Like(models.Model):
-    author_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -69,6 +70,6 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    author_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
