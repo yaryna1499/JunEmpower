@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
 from .models import CustomUser, ProjectImage, Project, Technology, Specialization
 
 
@@ -55,6 +54,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "profile_picture",
             "password",
             "specialization"
+
         ]
 
     def create(self, validated_data):
@@ -139,7 +139,6 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
             instance.technology.clear()
             for technology in technology_data:
                 instance.technology.add(technology)
-
         instance.save()
         return instance
 
