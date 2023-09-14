@@ -68,7 +68,7 @@ CORS_ALLOWED_ORIGINS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
