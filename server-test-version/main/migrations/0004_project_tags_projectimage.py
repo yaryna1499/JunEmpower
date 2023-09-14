@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("main", "0003_alter_customuser_email_alter_project_author_id_and_more"),
     ]

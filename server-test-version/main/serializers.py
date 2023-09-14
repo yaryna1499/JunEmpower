@@ -7,14 +7,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token['username'] = user.username
+        token["username"] = user.username
         return token
 
 
 class SpecializationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Specialization
-        fields = ('id', 'title', 'slug')
+        fields = ("id", "title", "slug")
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "date_joined",
             "profile_picture",
             "is_active",
-            "specialization"
+            "specialization",
         ]
 
 
@@ -49,26 +49,27 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "email",
             "profile_picture",
             "password",
-            "specialization"
-
+            "specialization",
         ]
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
-        specialization_data = validated_data.pop('specialization', [])
+        password = validated_data.pop("password")
+        specialization_data = validated_data.pop("specialization", [])
 
         user = CustomUser(**validated_data)
         user.set_password(password)  # Захешувати пароль
 
-        for specialization in specialization_data:    # спробувати тут примінити setatr() замість for
+        for (
+            specialization
+        ) in specialization_data:  # спробувати тут примінити setatr() замість for
             if specialization:
                 user.specialization.add(specialization)
         user.save()
         return user
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('password')
-        specialization_data = validated_data.pop('specialization', [])
+        password = validated_data.pop("password")
+        specialization_data = validated_data.pop("specialization", [])
         for key, value in validated_data.items():
             setattr(instance, key, value)
 
@@ -84,20 +85,19 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return instance
 
 
-#_________project____________________#
-
+# _________project____________________#
 
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectImage
-        fields = ('id', 'project', 'image', 'is_main')
+        fields = ("id", "project", "image", "is_main")
 
 
 class TechnologySerializer(serializers.ModelSerializer):
     class Meta:
         model = Technology
-        fields = ('id', 'title', 'slug')
+        fields = ("id", "title", "slug")
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -107,18 +107,20 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'title', 'description', 'technology', 'author', 'images']
+        fields = ["id", "title", "description", "technology", "author", "images"]
 
 
 class ProjectCreateSerializer(serializers.ModelSerializer):
-    technology = serializers.PrimaryKeyRelatedField(queryset=Technology.objects.all(), many=True)
+    technology = serializers.PrimaryKeyRelatedField(
+        queryset=Technology.objects.all(), many=True
+    )
 
     class Meta:
         model = Project
-        fields = ['title', 'description', 'technology']
+        fields = ["title", "description", "technology"]
 
     def create(self, validated_data):
-        technology_data = validated_data.pop('technology', [])
+        technology_data = validated_data.pop("technology", [])
         project = Project(**validated_data)
         for technology in technology_data:
             if technology:
@@ -127,7 +129,7 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
         return project
 
     def update(self, instance, validated_data):
-        technology_data = validated_data.pop('technology', [])
+        technology_data = validated_data.pop("technology", [])
         for key, value in validated_data.items():
             setattr(instance, key, value)
 
@@ -137,4 +139,3 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
                 instance.technology.add(technology)
         instance.save()
         return instance
-

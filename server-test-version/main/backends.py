@@ -7,7 +7,6 @@ UserModel = get_user_model()
 
 class EmailBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-
         if username is None:
             username = kwargs.get(UserModel.USERNAME_FIELD)
 
@@ -21,7 +20,11 @@ class EmailBackend(ModelBackend):
                     user = None
                     UserModel().set_password(password)
 
-            if user and user.check_password(password) and self.user_can_authenticate(user):
+            if (
+                user
+                and user.check_password(password)
+                and self.user_can_authenticate(user)
+            ):
                 return user
 
         return None

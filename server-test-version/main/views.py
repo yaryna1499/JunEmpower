@@ -1,4 +1,3 @@
-
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import permissions
 from rest_framework import generics
@@ -11,7 +10,6 @@ from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly, IsOwnerProjectOrR
 from .pagination import CustomSetPagination
 
 
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
@@ -19,7 +17,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class UserApiView(generics.ListCreateAPIView):
     pagination_class = CustomSetPagination
     parser_classes = (JSONParser, MultiPartParser, FormParser)
-    permission_classes = (permissions.IsAuthenticated,)  
+    permission_classes = (permissions.IsAuthenticated,)
     """
     Список користувачів(user_list) та створення нового користувача(user_create).
     """
@@ -30,7 +28,7 @@ class UserApiView(generics.ListCreateAPIView):
         """
         Визначення класу серіалайзера в залежності від методу запиту.
         """
-        if self.request.method == 'POST':
+        if self.request.method == "POST":
             return UserRegisterSerializer
         return self.serializer_class
 
@@ -38,20 +36,19 @@ class UserApiView(generics.ListCreateAPIView):
         """
         Викликаємо метод get_serializer_class() для вибору серіалайзера.
         """
-        kwargs['context'] = self.get_serializer_context()
+        kwargs["context"] = self.get_serializer_context()
         return self.get_serializer_class()(*args, **kwargs)
-    
+
     def get_permissions(self):
         """
         Визначення класів дозволів в залежності від методу запиту.
         """
-        if self.request.method == 'POST':
-
+        if self.request.method == "POST":
             return [permissions.AllowAny()]
         return super().get_permissions()
 
     def create(self, request, *args, **kwargs):
-        #переопределяємо статус з 400 на  409
+        # переопределяємо статус з 400 на  409
         try:
             response = super().create(request, *args, **kwargs)
             return response
@@ -61,24 +58,30 @@ class UserApiView(generics.ListCreateAPIView):
 
 
 class UserApiUpdate(generics.RetrieveUpdateAPIView):
-    permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticated,)
+    permission_classes = (
+        IsOwnerOrReadOnly,
+        permissions.IsAuthenticated,
+    )
     parser_classes = (JSONParser, MultiPartParser, FormParser)
     """
     Оновлення користувача(редагування профілю).
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    http_method_names = ['get', 'patch']
+    http_method_names = ["get", "patch"]
 
 
 class UserApiDestroy(generics.RetrieveDestroyAPIView):
-    permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticated,)
+    permission_classes = (
+        IsOwnerOrReadOnly,
+        permissions.IsAuthenticated,
+    )
     """
     Видалення користувача.
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    http_method_names = ['get', 'delete']
+    http_method_names = ["get", "delete"]
 
 
 class SpecializationApiView(generics.ListAPIView):
@@ -91,7 +94,7 @@ class SpecializationApiView(generics.ListAPIView):
     serializer_class = SpecializationSerializer
 
 
-#_____________________________project's_view_____________________________________#
+# _____________________________project's_view_____________________________________#
 
 
 class TechnologyApiView(generics.ListCreateAPIView):
@@ -111,38 +114,38 @@ class ProjectApiView(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
     def get_serializer_class(self):
-        if self.request.method == 'POST':
+        if self.request.method == "POST":
             return ProjectCreateSerializer
         return self.serializer_class
 
     def get_serializer(self, *args, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
+        kwargs["context"] = self.get_serializer_context()
         return self.get_serializer_class()(*args, **kwargs)
 
 
 class ProjectUpdateApiView(generics.RetrieveUpdateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectCreateSerializer
-    permission_classes = (IsOwnerProjectOrReadOnly, )   #перевірити
-    http_method_names = ['get', 'patch']
+    permission_classes = (IsOwnerProjectOrReadOnly,)  # перевірити
+    http_method_names = ["get", "patch"]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
     def get_serializer_class(self):
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return ProjectSerializer
         return self.serializer_class
 
     def get_serializer(self, *args, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
+        kwargs["context"] = self.get_serializer_context()
         return self.get_serializer_class()(*args, **kwargs)
 
 
 class ProjectDeleteApiView(generics.DestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = (IsOwnerProjectOrReadOnly, ) #перевірити
+    permission_classes = (IsOwnerProjectOrReadOnly,)  # перевірити
 
 
 class ImageApiView(generics.ListCreateAPIView):
