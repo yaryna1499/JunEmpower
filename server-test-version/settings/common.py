@@ -115,7 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
     #     "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     # },
 ]
-
+#________________MEDIA/STATIC_______________________________________
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
+#____________________________________________________________
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -127,15 +132,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "media/"
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

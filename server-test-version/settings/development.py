@@ -1,4 +1,4 @@
-from JunEmpower.settings.common import *
+from settings.common import *
 
 DEBUG = True
 
@@ -8,3 +8,4 @@ DATABASES = {
         'NAME': 'localDB_for_testing.sqlite3',
     }
 }
+
