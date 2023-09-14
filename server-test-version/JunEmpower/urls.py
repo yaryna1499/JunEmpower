@@ -30,7 +30,6 @@ urlpatterns = [
     path("redoc/", schema_view_openapi.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]
 
-from settings.development import DEBUG
-if DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += staticfiles_urlpatterns()
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
