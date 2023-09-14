@@ -7,7 +7,9 @@ services:
   - type: web
     name: jun-empower-server
     runtime: python
-    buildCommand: "./build.sh"
+    build: 
+      context: "server-test-version/"
+      command: "./build.sh"
     startCommand: "gunicorn JunEmpower.wsgi:application"
     envVars:
       - key: DATABASE_URL
