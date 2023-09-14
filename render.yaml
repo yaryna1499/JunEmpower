@@ -13,7 +13,7 @@ services:
       - key: DATABASE_URL
         fromDatabase:
           name: jun_emp_db
-          property: postgres://root:NoKpKKicxCv1S1bihWXbOmbPvLMWPKkm@dpg-ck0ttv9fp0sc73bgepp0-a/jun_emp_db
+          property: connectionString
       - key: SECRET_KEY
         generateValue: true
       - key: WEB_CONCURRENCY
