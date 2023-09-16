@@ -1,3 +1,5 @@
+from django.db.models import Q, Count
+from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import permissions
 from rest_framework import generics
@@ -109,6 +111,18 @@ class ProjectApiView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
     pagination_class = CustomSetPagination
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        technologies_args = self.request.GET.get('technologies')
+        if technologies_args:
+            technologies_list = technologies_args.split(',')
+            tech_objects = get_list_or_404(Technology, slug__in=technologies_list)
+            queryset = queryset.annotate(tech_count=Count('technology',
+                                                          filter=Q(technology__in=tech_objects)
+                                                          ))
+            queryset = queryset.filter(tech_count=len(tech_objects))
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
