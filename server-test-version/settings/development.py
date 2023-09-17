@@ -1,3 +1,5 @@
+import os
+
 from settings.common import *
 
 DEBUG = True
@@ -5,6 +7,6 @@ DEBUG = True
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "localDB_for_testing.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }

@@ -38,6 +38,12 @@ class Project(models.Model):
     description = models.TextField(max_length=500)
     technology = models.ManyToManyField(Technology, blank=True)
     tags = models.TextField(max_length=500, blank=True, null=True)
+    link_hub = models.URLField(blank=True, null=True)
+    link_deploy = models.URLField(blank=True, null=True)
+    in_development = models.BooleanField(default=True)
+    is_compiled = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     @property
     def main_image(self):
@@ -74,7 +80,7 @@ class Like(models.Model):
     author = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, blank=True, null=True
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='likes')
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
