@@ -1,21 +1,32 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.text import slugify
 
 
 class Specialization(models.Model):
-    title = models.CharField(max_length=100, blank=True, null=True)
-    slug = models.CharField(max_length=100, unique=True, default="slug")
+    title = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 
 class Technology(models.Model):
-    title = models.CharField(max_length=100, blank=True, null=True)
-    slug = models.CharField(max_length=100, unique=True, default="slug")
+    title = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 
 class CustomUser(AbstractUser):

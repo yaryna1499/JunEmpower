@@ -12,6 +12,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class SpecializationSerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField()
+
     class Meta:
         model = Specialization
         fields = ("id", "title", "slug")
@@ -95,6 +97,8 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class TechnologySerializer(serializers.ModelSerializer):
+    slug = serializers.ReadOnlyField()
+
     class Meta:
         model = Technology
         fields = ("id", "title", "slug")
