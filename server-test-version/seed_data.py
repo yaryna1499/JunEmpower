@@ -1,0 +1,100 @@
+from main.models import Project, CustomUser, Specialization, Technology
+from django_seed import Seed
+from django.db import transaction
+import pandas as pd
+import re
+from random import sample, choice
+import os
+
+seeder = Seed.seeder()  # для фейкових проектів та юзерів
+
+specializations = pd.read_csv("sp.csv", header=0, index_col=False, dtype={"Title": str})
+technologies = pd.read_csv("tech.csv", header=0, index_col=False, dtype={"Title": str})
+
+
+@transaction.atomic
+def seed_specializations():
+    for item in specializations.Title:
+        sp = Specialization(title=item, slug=re.sub("[/()\s\_]", "-", item.lower()))
+        sp.save()
+
+
+@transaction.atomic
+def seed_tech():
+    for item in technologies.Title:
+        try:
+            if "+" in item:
+                slug = re.sub("\+", "-plus", item.lower())
+                tech = Technology(title=item, slug=re.sub("[/()\s\_\.]", "-", slug))
+            elif "#" in item:
+                slug = re.sub("#", "-sharp", item.lower())
+                tech = Technology(title=item, slug=re.sub("[/()\s\_\.]", "-", slug))
+
+            else:
+                tech = Technology(
+                    title=item, slug=re.sub("[/()\s\_\.]", "-", item.lower())
+                )
+        finally:
+            tech.save()
+
+
+used_usernames = set()
+
+
+def generate_unique_username():
+    while True:
+        username = seeder.faker.user_name()
+        if username not in used_usernames:
+            used_usernames.add(username)
+            return username
+
+
+used_emails = set()
+
+
+def generate_unique_email():
+    while True:
+        email = seeder.faker.email()
+        if email not in used_emails:
+            used_emails.add(email)
+            return email
+
+
+def select_random_avatar():
+    path = "fake_avatar"
+    if os.path.exists(path) and os.path.isdir(path):
+        files = os.listdir(path)
+        random_avatar = choice(files)
+        return os.path.join(path, random_avatar)
+    else:
+        return None
+
+
+def seed_users():
+    # Отримуємо всі наявні спеціалізації з таблиці Specialization
+    all_specializations = list(
+        Specialization.objects.all().values_list("pk", flat=True)
+    )
+    seeder.add_entity(
+        CustomUser,
+        10,
+        {
+            "first_name": lambda x: seeder.faker.first_name(),
+            "last_name": lambda x: seeder.faker.last_name(),
+            "username": lambda x: generate_unique_username(),
+            "email": lambda x: generate_unique_email(),
+            "password": lambda x: seeder.faker.password(),
+            "is_superuser": lambda x: 0,
+            "profile_picture": lambda x: choice([select_random_avatar(), None]),
+        },
+    )
+    inserted_pks = seeder.execute()
+
+    for pk in inserted_pks[CustomUser]:
+        user = CustomUser.objects.get(pk=pk)
+        random_specializations = sample(
+            all_specializations, k=3
+        )  # Вибираємо 3 рандомні спеціалізації
+        user.specialization.set(
+            random_specializations
+        )  # Use .set() to assign the many-to-many relationship
