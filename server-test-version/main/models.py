@@ -51,8 +51,8 @@ class Project(models.Model):
     tags = models.TextField(max_length=500, blank=True, null=True)
     link_hub = models.URLField(blank=True, null=True)
     link_deploy = models.URLField(blank=True, null=True)
-    in_development = models.BooleanField(default=True)
-    is_compiled = models.BooleanField(default=False)
+    STATUS_CHOICES = (('completed', 'Completed'), ('in_development', 'In Development'), )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_development')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -74,6 +74,8 @@ class Project(models.Model):
 
     def __str__(self):
         return f"Project {self.title}, id: {self.id}"
+
+
 
 
 class ProjectImage(models.Model):

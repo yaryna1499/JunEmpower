@@ -137,9 +137,9 @@ class ProjectApiView(generics.ListCreateAPIView):
         if in_dev:
             queryset = queryset.filter(in_development=True)
         # filter is_compiled
-        is_compiled = validate_str_to_bool(self.request.GET.get('is-compiled'))
-        if is_compiled:
-            queryset = queryset.filter(is_compiled=True)
+        is_completed = validate_str_to_bool(self.request.GET.get('is-completed'))
+        if is_completed:
+            queryset = queryset.filter(is_completed=True)
         # sort
         sort = self.request.GET.get('sort')
         if sort:
