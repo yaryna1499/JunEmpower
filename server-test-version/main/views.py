@@ -132,14 +132,20 @@ class ProjectApiView(generics.ListCreateAPIView):
         link_deploy = validate_str_to_bool(self.request.GET.get('link-deploy'))
         if link_deploy:
             queryset = queryset.filter(link_deploy__isnull=False)
-        # filter in_development
-        in_dev = validate_str_to_bool(self.request.GET.get('in-dev'))
-        if in_dev:
-            queryset = queryset.filter(in_development=True)
-        # filter is_compiled
-        is_completed = validate_str_to_bool(self.request.GET.get('is-completed'))
-        if is_completed:
-            queryset = queryset.filter(is_completed=True)
+
+        # # filter in_development
+        # in_dev = validate_str_to_bool(self.request.GET.get('in-dev'))
+        # if in_dev:
+        #     queryset = queryset.filter(in_development=True)
+        # # filter is_compiled
+        # is_completed = validate_str_to_bool(self.request.GET.get('is-completed'))
+        # if is_completed:
+        #     queryset = queryset.filter(is_completed=True)
+
+        # filter status
+        status_proj = self.request.GET.get('status')
+        if status_proj:
+            queryset = queryset.filter(status=status)
         # sort
         sort = self.request.GET.get('sort')
         if sort:
