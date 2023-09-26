@@ -145,7 +145,7 @@ class ProjectApiView(generics.ListCreateAPIView):
         # filter status
         status_proj = self.request.GET.get('status')
         if status_proj:
-            queryset = queryset.filter(status=status)
+            queryset = queryset.filter(status=status_proj)
         # sort
         sort = self.request.GET.get('sort')
         if sort:
