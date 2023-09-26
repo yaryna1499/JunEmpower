@@ -4,23 +4,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0013_alter_specialization_slug_alter_specialization_title_and_more'),
+        ("main", "0013_alter_specialization_slug_alter_specialization_title_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='project',
-            name='in_development',
+            model_name="project",
+            name="in_development",
         ),
         migrations.RemoveField(
-            model_name='project',
-            name='is_compiled',
+            model_name="project",
+            name="is_compiled",
         ),
         migrations.AddField(
-            model_name='project',
-            name='status',
-            field=models.CharField(choices=[('completed', 'Completed'), ('in_development', 'In Development')], default='in_development', max_length=20),
+            model_name="project",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("completed", "Completed"),
+                    ("in_development", "In Development"),
+                ],
+                default="in_development",
+                max_length=20,
+            ),
         ),
     ]

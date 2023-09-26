@@ -108,7 +108,7 @@ class TechnologyApiView(generics.ListCreateAPIView):
 
 
 class ProjectApiView(generics.ListCreateAPIView):
-    queryset = Project.objects.all().order_by('-created')
+    queryset = Project.objects.all().order_by("-created")
     serializer_class = ProjectSerializer
     pagination_class = CustomSetPagination
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -116,20 +116,20 @@ class ProjectApiView(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
         # filter technologies
-        technologies_args = self.request.GET.get('technologies')
+        technologies_args = self.request.GET.get("technologies")
         if technologies_args:
-            technologies_list = technologies_args.split(',')
+            technologies_list = technologies_args.split(",")
             tech_objects = get_list_or_404(Technology, slug__in=technologies_list)
-            queryset = queryset.annotate(tech_count=Count('technology',
-                                                          filter=Q(technology__in=tech_objects)
-                                                          ))
+            queryset = queryset.annotate(
+                tech_count=Count("technology", filter=Q(technology__in=tech_objects))
+            )
             queryset = queryset.filter(tech_count=len(tech_objects))
         # filter link_hub
-        link_hub = validate_str_to_bool(self.request.GET.get('link-hub'))
+        link_hub = validate_str_to_bool(self.request.GET.get("link-hub"))
         if link_hub:
             queryset = queryset.filter(link_hub__isnull=False)
         # filter link_deploy
-        link_deploy = validate_str_to_bool(self.request.GET.get('link-deploy'))
+        link_deploy = validate_str_to_bool(self.request.GET.get("link-deploy"))
         if link_deploy:
             queryset = queryset.filter(link_deploy__isnull=False)
 
@@ -143,15 +143,17 @@ class ProjectApiView(generics.ListCreateAPIView):
         #     queryset = queryset.filter(is_completed=True)
 
         # filter status
-        status_proj = self.request.GET.get('status')
+        status_proj = self.request.GET.get("status")
         if status_proj:
             queryset = queryset.filter(status=status)
         # sort
-        sort = self.request.GET.get('sort')
+        sort = self.request.GET.get("sort")
         if sort:
-            if 'likes' in sort:
-                queryset = queryset.annotate(likes_count=Count('likes')).order_by(sort + '_count')
-            if 'created' in sort:
+            if "likes" in sort:
+                queryset = queryset.annotate(likes_count=Count("likes")).order_by(
+                    sort + "_count"
+                )
+            if "created" in sort:
                 queryset = queryset.order_by(sort)
 
         return queryset

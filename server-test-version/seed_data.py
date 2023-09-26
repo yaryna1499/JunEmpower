@@ -1,4 +1,4 @@
-from main.models import Project, CustomUser, Specialization, Technology
+from main.models import Project, CustomUser, Specialization, Technology, ProjectImage
 from django_seed import Seed
 from django.db import transaction
 import pandas as pd
@@ -77,7 +77,7 @@ def seed_users():
     )
     seeder.add_entity(
         CustomUser,
-        10,
+        20,
         {
             "first_name": lambda x: seeder.faker.first_name(),
             "last_name": lambda x: seeder.faker.last_name(),
@@ -98,3 +98,69 @@ def seed_users():
         user.specialization.set(
             random_specializations
         )  # Use .set() to assign the many-to-many relationship
+
+
+def generate_tags():
+    pass
+
+
+def select_random_picture():
+    path = "fake_pr_pict"
+    if os.path.exists(path) and os.path.isdir(path):
+        files = os.listdir(path)
+        random_avatar = choice(files)
+        return os.path.join(path, random_avatar)
+    else:
+        return None
+
+
+def seed_projects():
+    all_users = list(CustomUser.objects.all().values_list("pk", flat=True))
+    seeder.add_entity(
+        Project,
+        40,
+        {
+            "title": lambda x: seeder.faker.sentence(),
+            "description": lambda x: seeder.faker.paragraph(),
+            "tags": lambda x: generate_tags(),
+            "link_hub": lambda x: seeder.faker.url(),
+            "link_deploy": lambda x: seeder.faker.url(),
+            "status": lambda x: choice(["completed", "in_development"]),
+        },
+    )
+
+    inserted_data = seeder.execute()
+    inserted_pks = inserted_data[Project]
+
+    for pk in inserted_pks:
+        project = Project.objects.get(pk=pk)
+        random_author_pk = choice(
+            all_users
+        )  # Виберіть випадковий ідентифікатор користувача
+        random_author = CustomUser.objects.get(
+            pk=random_author_pk
+        )  # Отримайте екземпляр користувача за його ідентифікатором
+        project.author = (
+            random_author  # Присвоєння екземпляра користувача полю project.author
+        )
+        project.save()
+
+
+def seed_pr_images():
+    all_projects = list(Project.objects.all().values_list("pk", flat=True))
+    seeder.add_entity(
+        ProjectImage,
+        25,
+        {
+            "project": lambda x: Project.objects.get(pk=choice(all_projects)),
+            "image": lambda x: choice([select_random_picture(), None]),
+        },
+    )
+
+    seeder.execute()
+
+
+if __name__ == "__main__":
+    seed_users()
+    seed_projects()
+    seed_pr_images()

@@ -51,8 +51,13 @@ class Project(models.Model):
     tags = models.TextField(max_length=500, blank=True, null=True)
     link_hub = models.URLField(blank=True, null=True)
     link_deploy = models.URLField(blank=True, null=True)
-    STATUS_CHOICES = (('completed', 'Completed'), ('in_development', 'In Development'), )
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_development')
+    STATUS_CHOICES = (
+        ("completed", "Completed"),
+        ("in_development", "In Development"),
+    )
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="in_development"
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -76,8 +81,6 @@ class Project(models.Model):
         return f"Project {self.title}, id: {self.id}"
 
 
-
-
 class ProjectImage(models.Model):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="images"
@@ -93,7 +96,7 @@ class Like(models.Model):
     author = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, blank=True, null=True
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='likes')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="likes")
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
