@@ -17,4 +17,5 @@ urlpatterns = [
         name="user-specialization",
     ),
     path("technologies/", TechnologyApiView.as_view(), name="technologies"),
+    path("search/", ProjectApiView.as_view(), name="search"),
 ]

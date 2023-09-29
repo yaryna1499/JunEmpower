@@ -3,7 +3,7 @@ from django_seed import Seed
 from django.db import transaction
 import pandas as pd
 import re
-from random import sample, choice
+from random import sample, choice, randint
 import os
 
 seeder = Seed.seeder()  # для фейкових проектів та юзерів
@@ -158,6 +158,21 @@ def seed_pr_images():
     )
 
     seeder.execute()
+
+
+def seed_pr_tech():
+    all_tech= list(Technology.objects.all().values_list("pk", flat=True))
+    projects_pks = list(Project.objects.all().values_list("pk", flat=True))
+
+
+    for pk in projects_pks:
+        project = Project.objects.get(pk=pk)
+        random_tech = sample(
+            all_tech, k=randint(2,8)
+        )
+        project.technology.set(
+            random_tech
+        ) 
 
 
 if __name__ == "__main__":

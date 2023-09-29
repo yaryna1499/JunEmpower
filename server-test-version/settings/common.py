@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "main",
     "drf_yasg",
     "django_seed",
+    'django.contrib.postgres',
 ]
 
 

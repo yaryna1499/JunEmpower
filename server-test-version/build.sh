@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Запуск SQL-запитів з extension.sql
+psql -U root -d jun_emp_db -a -f extension.sql
 
 # exit on error
 set -o errexit

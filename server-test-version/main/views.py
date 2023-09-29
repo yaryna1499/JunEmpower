@@ -12,7 +12,9 @@ from .models import *
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly, IsOwnerProjectOrReadOnly
 from .pagination import CustomSetPagination
 from .my_tools import validate_str_to_bool
-
+from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import TrigramSimilarity
+from rest_framework import filters
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -101,6 +103,24 @@ class SpecializationApiView(generics.ListAPIView):
 # _____________________________project's_view_____________________________________#
 
 
+
+
+class CustomSearchFilter(filters.SearchFilter):
+    search_param = 'search'
+
+    def filter_queryset(self, request, queryset, view):
+        search_param = request.query_params.get(self.search_param, '').strip()
+
+        if search_param:
+            queryset = queryset.annotate(
+                similarity=TrigramSimilarity('title', search_param)
+                           + TrigramSimilarity('description', search_param)
+                           + TrigramSimilarity('technology', search_param)
+            ).filter(similarity__gt=0.1).order_by('-similarity')
+
+        return queryset
+
+
 class TechnologyApiView(generics.ListCreateAPIView):
     pagination_class = None
     queryset = Technology.objects.all()
@@ -113,6 +133,7 @@ class ProjectApiView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
     pagination_class = CustomSetPagination
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    filter_backends = [CustomSearchFilter]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -133,15 +154,6 @@ class ProjectApiView(generics.ListCreateAPIView):
         link_deploy = validate_str_to_bool(self.request.GET.get('link-deploy'))
         if link_deploy:
             queryset = queryset.filter(link_deploy__isnull=False)
-
-        # # filter in_development
-        # in_dev = validate_str_to_bool(self.request.GET.get('in-dev'))
-        # if in_dev:
-        #     queryset = queryset.filter(in_development=True)
-        # # filter is_compiled
-        # is_completed = validate_str_to_bool(self.request.GET.get('is-completed'))
-        # if is_completed:
-        #     queryset = queryset.filter(is_completed=True)
 
         # filter status
         status_proj = self.request.GET.get('status')
