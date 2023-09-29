@@ -1,6 +1,10 @@
 asgiref==3.7.2
+certifi==2023.7.22
+charset-normalizer==3.2.0
+cloudinary==1.35.0
 dj-database-url==2.1.0
 Django==4.2.4
+django-cloudinary-storage==0.3.0
 django-cors-headers==4.2.0
 django-environ==0.11.2
 django-filter==23.2
@@ -10,6 +14,7 @@ djangorestframework-simplejwt==5.3.0
 drf-yasg==1.21.7
 Faker==19.5.0
 gunicorn==21.2.0
+idna==3.4
 inflection==0.5.1
 Markdown==3.4.4
 numpy==1.26.0
@@ -21,10 +26,12 @@ PyJWT==2.8.0
 python-dateutil==2.8.2
 pytz==2023.3
 PyYAML==6.0.1
+requests==2.31.0
 six==1.16.0
 sqlparse==0.4.4
 toposort==1.10
 typing_extensions==4.7.1
 tzdata==2023.3
 uritemplate==4.1.1
+urllib3==1.26.16
 whitenoise==6.5.0

@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'cloudinary_storage',
     "corsheaders",
     "rest_framework_simplejwt",
     "rest_framework",
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "django_seed",
     'django.contrib.postgres',
+    'cloudinary',
 ]
 
 
