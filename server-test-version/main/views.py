@@ -115,7 +115,6 @@ class CustomSearchFilter(filters.SearchFilter):
             queryset = queryset.annotate(
                 similarity=TrigramSimilarity('title', search_param)
                            + TrigramSimilarity('description', search_param)
-                           + TrigramSimilarity('technology', search_param)
             ).filter(similarity__gt=0.1).order_by('-similarity')
 
         return queryset
