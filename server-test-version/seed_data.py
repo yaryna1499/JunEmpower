@@ -5,6 +5,7 @@ import pandas as pd
 import re
 from random import sample, choice, randint
 import os
+import cloudinary
 
 seeder = Seed.seeder()  # для фейкових проектів та юзерів
 
@@ -61,7 +62,7 @@ def generate_unique_email():
 
 
 def select_random_avatar():
-    path = "fake_avatar"
+    path = "media/fake_avatar"
     if os.path.exists(path) and os.path.isdir(path):
         files = os.listdir(path)
         random_avatar = choice(files)
@@ -77,7 +78,7 @@ def seed_users():
     )
     seeder.add_entity(
         CustomUser,
-        20,
+        50,
         {
             "first_name": lambda x: seeder.faker.first_name(),
             "last_name": lambda x: seeder.faker.last_name(),
@@ -105,7 +106,7 @@ def generate_tags():
 
 
 def select_random_picture():
-    path = "fake_pr_pict"
+    path = "media/fake_pr_pict"
     if os.path.exists(path) and os.path.isdir(path):
         files = os.listdir(path)
         random_avatar = choice(files)
@@ -118,7 +119,7 @@ def seed_projects():
     all_users = list(CustomUser.objects.all().values_list("pk", flat=True))
     seeder.add_entity(
         Project,
-        40,
+        100,
         {
             "title": lambda x: seeder.faker.sentence(),
             "description": lambda x: seeder.faker.paragraph(),
