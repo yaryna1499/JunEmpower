@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.postgres.indexes import GinIndex
+
 
 class Specialization(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -35,6 +37,11 @@ class CustomUser(AbstractUser):
         upload_to="uploads/profile/", blank=True, null=True
     )
     specialization = models.ManyToManyField(Specialization, blank=True)
+    about = models.TextField(max_length=1000, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    linkedin = models.URLField(max_length=200, blank=True, null=True)
+    repo = models.URLField(max_length=200, blank=True, null=True)
+    telegram = models.URLField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.username
@@ -44,7 +51,7 @@ class Project(models.Model):
     author = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, blank=True, null=True
     )
-    title = models.CharField(max_length=100)
+    title = models.TextField(max_length=100)
     description = models.TextField(max_length=500)
     technology = models.ManyToManyField(Technology, blank=True)
     tags = models.TextField(max_length=500, blank=True, null=True)
@@ -59,6 +66,12 @@ class Project(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        indexes = [
+            GinIndex(fields=['title'], name='title_gin_idx'),
+            GinIndex(fields=['description'], name='description_gin_idx'),
+        ]
 
     @property
     def main_image(self):
@@ -109,5 +122,10 @@ class Comment(models.Model):
     author = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, blank=True, null=True
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.project.title}"
