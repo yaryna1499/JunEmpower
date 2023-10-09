@@ -1,8 +1,7 @@
 
-from django.db.models import Q, Count
-from django.shortcuts import get_object_or_404, get_list_or_404
+
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from rest_framework import permissions
+from rest_framework import permissions, viewsets
 from rest_framework import generics
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
@@ -11,9 +10,11 @@ from .serializers import *
 from .models import *
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly, IsOwnerProjectOrReadOnly
 from .pagination import CustomSetPagination
+from .filters import *
 from .my_tools import validate_str_to_bool
 from django.contrib.postgres.search import TrigramSimilarity
 from rest_framework import filters
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -102,23 +103,6 @@ class SpecializationApiView(generics.ListAPIView):
 # _____________________________project's_view_____________________________________#
 
 
-
-
-class CustomSearchFilter(filters.SearchFilter):
-    search_param = 'search'
-
-    def filter_queryset(self, request, queryset, view):
-        search_param = request.query_params.get(self.search_param, '').strip()
-
-        if search_param:
-            queryset = queryset.annotate(
-                similarity=TrigramSimilarity('title', search_param)
-                           + TrigramSimilarity('description', search_param)
-            ).filter(similarity__gt=0.1).order_by('-similarity')
-
-        return queryset
-
-
 class TechnologyApiView(generics.ListCreateAPIView):
     pagination_class = None
     queryset = Technology.objects.all()
@@ -131,41 +115,25 @@ class ProjectApiView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
     pagination_class = CustomSetPagination
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    filter_backends = [CustomSearchFilter]
+    filter_backends = [CustomSearchFilter,
+                       TechnologiesFilter,
+                       StatusFilter,
+                       LinkDeployFilter,
+                       LinkHubFilter,
+                       SortFilter]
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        # filter technologies
-        technologies_args = self.request.GET.get('technologies')
-        if technologies_args:
-            technologies_list = technologies_args.split(',')
-            tech_objects = get_list_or_404(Technology, slug__in=technologies_list)
-            queryset = queryset.annotate(tech_count=Count('technology',
-                                                          filter=Q(technology__in=tech_objects)
-                                                          ))
-            queryset = queryset.filter(tech_count=len(tech_objects))
-        # filter link_hub
-        link_hub = validate_str_to_bool(self.request.GET.get('link-hub'))
-        if link_hub:
-            queryset = queryset.filter(link_hub__isnull=False)
-        # filter link_deploy
-        link_deploy = validate_str_to_bool(self.request.GET.get('link-deploy'))
-        if link_deploy:
-            queryset = queryset.filter(link_deploy__isnull=False)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
-        # filter status
-        status_proj = self.request.GET.get('status')
-        if status_proj:
-            queryset = queryset.filter(status=status_proj)
-        # sort
-        sort = self.request.GET.get('sort')
-        if sort:
-            if 'likes' in sort:
-                queryset = queryset.annotate(likes_count=Count('likes')).order_by(sort + '_count')
-            if 'created' in sort:
-                queryset = queryset.order_by(sort)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        return queryset
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -217,3 +185,59 @@ class ImageDeleteApiView(generics.DestroyAPIView):
     queryset = ProjectImage.objects.all()
     serializer_class = ImageSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+
+
+class LikeViewSet(viewsets.ModelViewSet):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    http_method_names = ['post', 'delete']
+
+    def create(self, request, *args, **kwargs):
+        author = request.user
+        request.data['author'] = author.id
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        project_id = request.data.get('project')
+        try:
+            like = Like.objects.get(project=project_id, author=request.user)
+            like.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Like.DoesNotExist:
+            return Response({'detail': 'Does not exist like '}, status=status.HTTP_404_NOT_FOUND)
+
+
+#
+
+class ProjectCommentsView(generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        project_id = self.kwargs.get('project_id')
+        return Comment.objects.filter(project=project_id)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        data['project'] = self.kwargs.get('project_id')
+        data['author'] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerProjectOrReadOnly]
+    http_method_names = ['get', 'patch', 'delete']
+
+    def get_object(self):
+        comment_id = self.kwargs.get('comment_id')
+        comment = get_object_or_404(Comment, id=comment_id)
+        return comment
+

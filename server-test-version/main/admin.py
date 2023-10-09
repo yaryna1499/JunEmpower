@@ -12,8 +12,13 @@ class PostAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'username', 'email')
+
+
+admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Project, PostAdmin)
 admin.site.register(Specialization)
 admin.site.register(Technology)
 admin.site.register(Like)
+admin.site.register(Comment)

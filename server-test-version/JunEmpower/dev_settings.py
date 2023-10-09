@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     "main",
     "drf_yasg",
     "django_seed",
+    "django.contrib.postgres",
 ]
 
 
@@ -121,10 +123,16 @@ WSGI_APPLICATION = "JunEmpower.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    # }
+
+    "default": dj_database_url.config(
+        # Feel free to alter this value to suit your needs.
+        default="postgres://root:NoKpKKicxCv1S1bihWXbOmbPvLMWPKkm@dpg-ck0ttv9fp0sc73bgepp0-a.oregon-postgres.render.com/jun_emp_db",
+        conn_max_age=600,
+    )
 }
 
 # Password validation

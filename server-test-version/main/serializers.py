@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import CustomUser, ProjectImage, Project, Technology, Specialization
+from .models import CustomUser, ProjectImage, Project, Technology, Specialization, Like, Comment
 
 
 from rest_framework import serializers
@@ -39,6 +39,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "profile_picture",
             "is_active",
             "specialization",
+            "about",
+            "country",
+            "linkedin",
+            "repo",
+            "telegram",
         ]
 
 
@@ -57,6 +62,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "profile_picture",
             "password",
             "specialization",
+            "about",
+            "country",
+            "linkedin",
+            "repo",
+            "telegram",
         ]
 
     def create(self, validated_data):
@@ -109,14 +119,28 @@ class TechnologySerializer(serializers.ModelSerializer):
         fields = ("id", "title", "slug")
 
 
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     technology = TechnologySerializer(read_only=True, many=True)
     images = ImageSerializer(read_only=True, many=True)
     author = CustomUserSerializer(read_only=True)
+    likes = LikeSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
-        fields = ["id", "title", "description", "created", "technology", "author", "images"]
+        fields = ["id", "title", "description", "created", "technology", "author", "images", "likes", "status", "link_hub", "link_deploy", 'comments']
 
 
 class ProjectCreateSerializer(serializers.ModelSerializer):
@@ -126,7 +150,7 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ["title", "description", "technology"]
+        fields = ["title", "description", "technology", "link_hub", "link_deploy", "status"]
 
     def create(self, validated_data):
         technology_data = validated_data.pop("technology", [])
@@ -148,3 +172,5 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
                 instance.technology.add(technology)
         instance.save()
         return instance
+
+
