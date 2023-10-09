@@ -11,6 +11,9 @@ from .models import *
 from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly, IsOwnerProjectOrReadOnly
 from .pagination import CustomSetPagination
 from .filters import *
+from .my_tools import validate_str_to_bool
+from django.contrib.postgres.search import TrigramSimilarity
+from rest_framework import filters
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
