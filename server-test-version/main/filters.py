@@ -53,10 +53,14 @@ class CustomSearchFilter(filters.BaseFilterBackend):
 
 class TechnologiesFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        requested_technologies = request.GET.getlist('technologies')
-        queryset = queryset
-        for tech_slug in requested_technologies:
-            queryset = queryset.filter(technology__slug=tech_slug)
+        # requested_technologies = request.GET.getlist('technologies')
+        requested_technologies = request.GET.get('technologies')
+        if requested_technologies:
+            technologies_list = requested_technologies.split(',')
+
+            queryset = queryset
+            for tech_slug in technologies_list:
+                queryset = queryset.filter(technology__slug=tech_slug)
         return queryset
 
 
