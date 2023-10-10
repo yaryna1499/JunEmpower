@@ -147,18 +147,20 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
     technology = serializers.PrimaryKeyRelatedField(
         queryset=Technology.objects.all(), many=True
     )
+    # id = serializers.ReadOnlyField()
 
     class Meta:
         model = Project
-        fields = ["title", "description", "technology", "link_hub", "link_deploy", "status"]
+        fields = ["id", "title", "description", "technology", "link_hub", "link_deploy", "status"]
 
     def create(self, validated_data):
         technology_data = validated_data.pop("technology", [])
         project = Project(**validated_data)
+        project.save()
         for technology in technology_data:
             if technology:
                 project.technology.add(technology)
-        project.save()
+
         return project
 
     def update(self, instance, validated_data):
