@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "main",
     "drf_yasg",
     "django.contrib.postgres",
-    "django-seed",
+    "django_seed",
     "cloudinary",
 ]
 
