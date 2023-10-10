@@ -10,19 +10,26 @@ from .my_tools import validate_str_to_bool
 
 
 class CustomSearchFilter(filters.BaseFilterBackend):
-    search_param = 'search'
+    search_param = "search"
 
     def filter_queryset(self, request, queryset, view):
-        search_param = request.GET.get(self.search_param, '').strip()
+        search_param = request.GET.get(self.search_param, "").strip()
 
         if search_param:
-            title_similarity = TrigramSimilarity('title', search_param, weight='A')
-            description_similarity = TrigramSimilarity('description', search_param, weight='B')
+            title_similarity = TrigramSimilarity("title", search_param, weight="A")
+            description_similarity = TrigramSimilarity(
+                "description", search_param, weight="B"
+            )
             total_similarity = title_similarity + description_similarity
-            queryset = queryset.annotate(description_similarity=description_similarity,
-                                         title_similarity=title_similarity,
-                                         total_similarity=total_similarity
-                                         ).filter(total_similarity__gt=0.1).order_by('-total_similarity')
+            queryset = (
+                queryset.annotate(
+                    description_similarity=description_similarity,
+                    title_similarity=title_similarity,
+                    total_similarity=total_similarity,
+                )
+                .filter(total_similarity__gt=0.1)
+                .order_by("-total_similarity")
+            )
 
             # queryset = queryset.annotate(title_similarity=TrigramSimilarity('title', search_param),
             #                              description_similarity=TrigramSimilarity('description', search_param)
@@ -53,7 +60,7 @@ class CustomSearchFilter(filters.BaseFilterBackend):
 
 class TechnologiesFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        requested_technologies = request.GET.getlist('technologies')
+        requested_technologies = request.GET.getlist("technologies")
         queries = []
         for tech in requested_technologies:
             try:
@@ -72,7 +79,7 @@ class TechnologiesFilter(filters.BaseFilterBackend):
 
 class LinkDeployFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        link_deploy = validate_str_to_bool(request.GET.get('link-deploy'))
+        link_deploy = validate_str_to_bool(request.GET.get("link-deploy"))
         if link_deploy:
             queryset = queryset.filter(link_deploy__isnull=False)
         return queryset
@@ -80,7 +87,7 @@ class LinkDeployFilter(filters.BaseFilterBackend):
 
 class LinkHubFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        link_hub = validate_str_to_bool(request.GET.get('link-hub'))
+        link_hub = validate_str_to_bool(request.GET.get("link-hub"))
         if link_hub:
             queryset = queryset.filter(link_hub__isnull=False)
         return queryset
@@ -88,7 +95,7 @@ class LinkHubFilter(filters.BaseFilterBackend):
 
 class StatusFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        status_proj = request.GET.get('status')
+        status_proj = request.GET.get("status")
         if status_proj:
             queryset = queryset.filter(status=status_proj.strip())
         return queryset
@@ -96,11 +103,13 @@ class StatusFilter(filters.BaseFilterBackend):
 
 class SortFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        sort = request.GET.get('sort')
+        sort = request.GET.get("sort")
         if sort:
             sort = sort.strip()
-            if 'likes' in sort:
-                queryset = queryset.annotate(likes_count=Count('likes')).order_by(sort + '_count')
-            if 'created' in sort:
+            if "likes" in sort:
+                queryset = queryset.annotate(likes_count=Count("likes")).order_by(
+                    sort + "_count"
+                )
+            if "created" in sort:
                 queryset = queryset.order_by(sort)
         return queryset

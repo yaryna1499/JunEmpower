@@ -13,7 +13,7 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'email')
+    list_display = ("id", "username", "email")
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
