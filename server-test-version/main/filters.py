@@ -5,7 +5,7 @@ from rest_framework import filters
 from django.db.models import Q, Count, F, FloatField, ExpressionWrapper
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .models import Technology
+from .models import Technology, Project
 from .my_tools import validate_str_to_bool
 
 
@@ -54,19 +54,9 @@ class CustomSearchFilter(filters.BaseFilterBackend):
 class TechnologiesFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         requested_technologies = request.GET.getlist('technologies')
-        queries = []
-        for tech in requested_technologies:
-            try:
-                Technology.objects.get(slug=tech)
-                queries.append(Q(technology__slug=tech))
-            except ObjectDoesNotExist:
-                # Якщо треба буде тут можно обробити випадок коли така технолгія відсутня в БД, або вказана з помилкою
-                pass
-
-        result_query = Q()
-        for query in queries:
-            result_query &= query
-        queryset = queryset.filter(result_query)
+        queryset = queryset
+        for tech_slug in requested_technologies:
+            queryset = queryset.filter(technology__slug=tech_slug)
         return queryset
 
 
