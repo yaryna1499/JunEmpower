@@ -49,7 +49,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    specialization = SpecializationSerializer(read_only=True, many=True)
+    # specialization = SpecializationSerializer(read_only=True, many=True)
+    specialization = serializers.PrimaryKeyRelatedField(queryset=Specialization.objects.all(), many=True)
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -69,38 +70,23 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "repo",
             "telegram",
         ]
+        read_only_fields = ['id', ]
 
     def create(self, validated_data):
         password = validated_data.pop("password")
-        specialization_data = validated_data.pop("specialization", [])
-
-        user = CustomUser(**validated_data)
+        user = super().create(validated_data)
         user.set_password(password)  # Захешувати пароль
-
-        for (
-            specialization
-        ) in specialization_data:  # спробувати тут примінити setatr() замість for
-            if specialization:
-                user.specialization.add(specialization)
         user.save()
         return user
 
     def update(self, instance, validated_data):
-        password = validated_data.pop("password")
-        specialization_data = validated_data.pop("specialization", [])
-        for key, value in validated_data.items():
-            setattr(instance, key, value)
-
+        password = validated_data.pop("password", None)
+        instance = super().update(instance, validated_data)
         if password:
             instance.set_password(password)
-
-        if specialization_data:
-            instance.specialization.clear()
-            for specialization in specialization_data:
-                instance.specialization.add(specialization)
-
-        instance.save()
+            instance.save()
         return instance
+
 
 
 # _________project____________________#
