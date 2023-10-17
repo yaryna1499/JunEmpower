@@ -162,18 +162,13 @@ def seed_pr_images():
 
 
 def seed_pr_tech():
-    all_tech= list(Technology.objects.all().values_list("pk", flat=True))
+    all_tech = list(Technology.objects.all().values_list("pk", flat=True))
     projects_pks = list(Project.objects.all().values_list("pk", flat=True))
-
 
     for pk in projects_pks:
         project = Project.objects.get(pk=pk)
-        random_tech = sample(
-            all_tech, k=randint(2,8)
-        )
-        project.technology.set(
-            random_tech
-        ) 
+        random_tech = sample(all_tech, k=randint(2, 8))
+        project.technology.set(random_tech)
 
 
 if __name__ == "__main__":

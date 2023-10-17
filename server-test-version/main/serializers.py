@@ -1,6 +1,14 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import CustomUser, ProjectImage, Project, Technology, Specialization, Like, Comment
+from .models import (
+    CustomUser,
+    ProjectImage,
+    Project,
+    Technology,
+    Specialization,
+    Like,
+    Comment,
+)
 
 
 from rest_framework import serializers
@@ -10,9 +18,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
-        
         token = super().get_token(user)
-        token['username'] = user.username
+        token["username"] = user.username
 
         return token
 
@@ -109,13 +116,13 @@ class TechnologySerializer(serializers.ModelSerializer):
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -127,7 +134,20 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ["id", "title", "description", "created", "technology", "author", "images", "likes", "status", "link_hub", "link_deploy", 'comments']
+        fields = [
+            "id",
+            "title",
+            "description",
+            "created",
+            "technology",
+            "author",
+            "images",
+            "likes",
+            "status",
+            "link_hub",
+            "link_deploy",
+            "comments",
+        ]
 
 
 class ProjectCreateSerializer(serializers.ModelSerializer):
@@ -138,6 +158,7 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
+
         fields = ["id", "title", "description", "technology", "link_hub", "link_deploy", "status"]
 
     def create(self, validated_data):
@@ -161,5 +182,3 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
                 instance.technology.add(technology)
         instance.save()
         return instance
-
-

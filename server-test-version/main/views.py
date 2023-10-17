@@ -1,5 +1,3 @@
-
-
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import permissions, viewsets
 from rest_framework import generics
@@ -124,16 +122,18 @@ class TechnologyApiView(generics.ListCreateAPIView):
 
 
 class ProjectApiView(generics.ListCreateAPIView):
-    queryset = Project.objects.all().order_by('-created')
+    queryset = Project.objects.all().order_by("-created")
     serializer_class = ProjectSerializer
     pagination_class = CustomSetPagination
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    filter_backends = [CustomSearchFilter,
-                       TechnologiesFilter,
-                       StatusFilter,
-                       LinkDeployFilter,
-                       LinkHubFilter,
-                       SortFilter]
+    filter_backends = [
+        CustomSearchFilter,
+        TechnologiesFilter,
+        StatusFilter,
+        LinkDeployFilter,
+        LinkHubFilter,
+        SortFilter,
+    ]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -205,52 +205,59 @@ class LikeViewSet(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    http_method_names = ['post', 'delete']
+    http_method_names = ["post", "delete"]
 
     def create(self, request, *args, **kwargs):
         author = request.user
-        request.data['author'] = author.id
+        request.data["author"] = author.id
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        project_id = request.data.get('project')
+        project_id = request.data.get("project")
         try:
             like = Like.objects.get(project=project_id, author=request.user)
             like.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
-            return Response({'detail': 'Does not exist like '}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"detail": "Does not exist like "}, status=status.HTTP_404_NOT_FOUND
+            )
 
 
 #
+
 
 class ProjectCommentsView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        project_id = self.kwargs.get('project_id')
+        project_id = self.kwargs.get("project_id")
         return Comment.objects.filter(project=project_id)
 
     def create(self, request, *args, **kwargs):
         data = request.data
 
-        data['project'] = self.kwargs.get('project_id')
-        data['author'] = self.request.user.id
+        data["project"] = self.kwargs.get("project_id")
+        data["author"] = self.request.user.id
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerProjectOrReadOnly]
-    http_method_names = ['get', 'patch', 'delete']
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerProjectOrReadOnly,
+    ]
+    http_method_names = ["get", "patch", "delete"]
 
     def get_object(self):
-        comment_id = self.kwargs.get('comment_id')
+        comment_id = self.kwargs.get("comment_id")
         comment = get_object_or_404(Comment, id=comment_id)
         return comment
-

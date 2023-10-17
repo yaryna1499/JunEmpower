@@ -1,7 +1,34 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.postgres.indexes import GinIndex
+# from django.contrib.postgres.indexes import GinIndex
+from cloudinary.models import CloudinaryField
+
+
+class CustomCloudinaryField(CloudinaryField):
+    def upload_options(self, model_instance):
+        # Викликаємо метод суперкласу для отримання базових налаштувань
+        base_options = super().upload_options(model_instance)
+
+        # Додаємо свої додаткові налаштування або змінюємо базові
+        custom_options = {
+            'public_id': model_instance.name,
+            'unique_filename': False,
+            'overwrite': True,
+            'resource_type': 'image',
+            'invalidate': True,
+            'quality': 'auto:eco',
+            'folder': 'uploads/profile/',
+            'crop': 'limit',
+            'width': 200,
+            'height': 200,
+        }
+
+        # Об'єднуємо базові і свої налаштування
+        options = {**base_options, **custom_options}
+
+        return options
+
 
 
 class Specialization(models.Model):
@@ -33,9 +60,8 @@ class Technology(models.Model):
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
 
-    profile_picture = models.ImageField(
-        upload_to="uploads/profile/", blank=True, null=True
-    )
+    profile_picture = CustomCloudinaryField('profile_picture', blank=True, null=True, default=None)
+    
     specialization = models.ManyToManyField(Specialization, blank=True)
     about = models.TextField(max_length=1000, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
@@ -67,11 +93,11 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        indexes = [
-            GinIndex(fields=['title'], name='title_gin_idx'),
-            GinIndex(fields=['description'], name='description_gin_idx'),
-        ]
+    # class Meta:
+    #     indexes = [
+    #         GinIndex(fields=['title'], name='title_gin_idx'),
+    #         GinIndex(fields=['description'], name='description_gin_idx'),
+    #     ]
 
     @property
     def main_image(self):
