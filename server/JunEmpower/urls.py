@@ -14,6 +14,7 @@ from rest_framework_simplejwt.views import (
 
 from main.views import MyTokenObtainPairView
 
+
 schema_view_openapi = drf_yasg_get_schema_view(
     openapi.Info(
         title="API endpoints for JunEmpower",
@@ -40,4 +41,3 @@ urlpatterns = [
 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += staticfiles_urlpatterns()

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
-# from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.indexes import GinIndex
 from cloudinary.models import CloudinaryField
 
 
@@ -93,11 +93,11 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    # class Meta:
-    #     indexes = [
-    #         GinIndex(fields=['title'], name='title_gin_idx'),
-    #         GinIndex(fields=['description'], name='description_gin_idx'),
-    #     ]
+    class Meta:
+        indexes = [
+            GinIndex(fields=['title'], name='title_gin_idx'),
+            GinIndex(fields=['description'], name='description_gin_idx'),
+        ]
 
     @property
     def main_image(self):

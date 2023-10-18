@@ -34,27 +34,16 @@ INSTALLED_APPS = [
 ]
 
 # __________________________database settings_______________________________________________
-import dj_database_url
-
-if DEBUG:
-    DATABASES = {
-        # підключення до віддаленої БД із локального середовища
-        "default": dj_database_url.config(
-            default=env("DB_EXTERNAL_CS"),
-            conn_max_age=600,
-        )
-    }
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-    # internal connection - локально не працює
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=env("DB_INTERNAL_CS"),
-            conn_max_age=600,
-        )
-    }
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',   
+       'NAME': env('POSTGRES_DB'),   
+       'USER': env('POSTGRES_USER'),
+       'PASSWORD': env('POSTGRES_PASSWORD'),
+       'HOST': env('POSTGRES_HOST'),  
+       'PORT': env('POSTGRES_PORT')   
+   }
+}
 # __________________________________________________________________________________________
 
 
@@ -99,15 +88,12 @@ CORS_ALLOWED_ORIGINS = [
     "https://strong-medovik-b79ef2.netlify.app",
 ]
 
-# _________________________________________________________________________________
+# __________________________________________________________________________________________
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    # _____________whitenoise for serving staticfiles on render____________________________
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    # ___________________________________________________________________________
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
