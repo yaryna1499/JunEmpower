@@ -3,12 +3,14 @@ services:
   db:
     container_name: my_db
     image: postgres:alpine3.18
+    restart: always
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=db_platform404
     volumes:
       - ./docker/db:/var/lib/postgresql/data
+      - ./extension.sql:/docker-entrypoint-initdb.d/create_tables.sql
     networks:
       - my-network
 

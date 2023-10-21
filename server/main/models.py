@@ -95,8 +95,8 @@ class Project(models.Model):
 
     class Meta:
         indexes = [
-            GinIndex(fields=['title'], name='title_gin_idx'),
-            GinIndex(fields=['description'], name='description_gin_idx'),
+            GinIndex(fields=['title'], name='title_gin_idx', opclasses=['gin_trgm_ops']),
+            GinIndex(fields=['description'], name='description_gin_idx', opclasses=['gin_trgm_ops']),
         ]
 
     @property
