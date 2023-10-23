@@ -4,33 +4,6 @@ from django.utils.text import slugify
 from django.contrib.postgres.indexes import GinIndex
 from cloudinary.models import CloudinaryField
 
-
-class CustomCloudinaryField(CloudinaryField):
-    def upload_options(self, model_instance):
-        # Викликаємо метод суперкласу для отримання базових налаштувань
-        base_options = super().upload_options(model_instance)
-
-        # Додаємо свої додаткові налаштування або змінюємо базові
-        custom_options = {
-            'public_id': model_instance.name,
-            'unique_filename': False,
-            'overwrite': True,
-            'resource_type': 'image',
-            'invalidate': True,
-            'quality': 'auto:eco',
-            'folder': 'uploads/profile/',
-            'crop': 'limit',
-            'width': 200,
-            'height': 200,
-        }
-
-        # Об'єднуємо базові і свої налаштування
-        options = {**base_options, **custom_options}
-
-        return options
-
-
-
 class Specialization(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
@@ -58,9 +31,18 @@ class Technology(models.Model):
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
 
-    profile_picture = CustomCloudinaryField('profile_picture', blank=True, null=True, default=None)
+    def profile_picture_file_name(self):
+        return f"avatar_of_user_{self.username}"
+
+    email = models.EmailField(unique=True)
+    profile_picture = CloudinaryField("profile_picture", folder='users/profile', overwrite=True,
+  transformation=[
+  {'aspect_ratio': "1.0", 'width': 150, 'crop': "fill"},
+  {'radius': "max"},
+  {'fetch_format': "auto"},
+  {"quality": 80},
+  ], use_filename=True, public_id=profile_picture_file_name)
     
     specialization = models.ManyToManyField(Specialization, blank=True)
     about = models.TextField(max_length=1000, blank=True, null=True)
@@ -120,10 +102,24 @@ class Project(models.Model):
 
 
 class ProjectImage(models.Model):
+
+    def project_image_file_name(self):
+        return f"image_of_project_{self.project}_with_id_{self.id}"
+
+    def project_image_folder_name(self):
+        return f"projects/project_{self.project}"
+
+
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="uploads/img/project/")
+    image = CloudinaryField("project_image", folder=project_image_folder_name, overwrite=True,
+  transformation=[
+  {"width": 400, "height": 300, "crop": "pad"},
+  {'fetch_format': "auto"},
+  {"quality": 80},
+  ], use_filename=True, public_id=project_image_file_name)
+    
     is_main = models.BooleanField(default=False)
 
     def __str__(self):

@@ -44,8 +44,13 @@ DATABASES = {
        'PORT': env('POSTGRES_PORT')   
    }
 }
-# __________________________________________________________________________________________
 
+
+# ________________MEDIA/STATIC_______________________________________
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 # _____________________Cloudinary for media files serving configuration____________________
 CLOUDINARY_URL = env("CLOUDINARY_URL")
@@ -139,12 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
     #     "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     # },
 ]
-# ________________MEDIA/STATIC_______________________________________
-MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
-# ____________________________________________________________________
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
