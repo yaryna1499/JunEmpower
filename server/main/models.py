@@ -102,10 +102,24 @@ class Project(models.Model):
 
 
 class ProjectImage(models.Model):
+
+    def project_image_file_name(self):
+        return f"image_of_project_{self.project}_with_id_{self.id}"
+
+    def project_image_folder_name(self):
+        return f"projects/project_{self.project}"
+
+
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="uploads/img/project/")
+    image = CloudinaryField("project_image", folder=project_image_folder_name, overwrite=True,
+  transformation=[
+  {"width": 400, "height": 300, "crop": "pad"},
+  {'fetch_format': "auto"},
+  {"quality": 80},
+  ], use_filename=True, public_id=project_image_file_name)
+    
     is_main = models.BooleanField(default=False)
 
     def __str__(self):
