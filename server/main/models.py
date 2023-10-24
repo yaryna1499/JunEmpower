@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
   {'radius': "max"},
   {'fetch_format': "auto"},
   {"quality": 80},
-  ], use_filename=True, public_id=profile_picture_file_name, blank=True)
+  ], use_filename=True, public_id=profile_picture_file_name, blank=True, null=True)
     
     specialization = models.ManyToManyField(Specialization, blank=True)
     about = models.TextField(max_length=1000, blank=True, null=True)
