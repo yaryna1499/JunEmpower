@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
   {'radius': "max"},
   {'fetch_format': "auto"},
   {"quality": 80},
-  ], use_filename=True, public_id=profile_picture_file_name)
+  ], use_filename=True, public_id=profile_picture_file_name, blank=True)
     
     specialization = models.ManyToManyField(Specialization, blank=True)
     about = models.TextField(max_length=1000, blank=True, null=True)
@@ -113,12 +113,12 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="images"
     )
-    image = CloudinaryField("project_image", folder=project_image_folder_name, overwrite=True,
+    image = CloudinaryField("image", folder=project_image_folder_name, overwrite=True,
   transformation=[
   {"width": 400, "height": 300, "crop": "pad"},
   {'fetch_format': "auto"},
   {"quality": 80},
-  ], use_filename=True, public_id=project_image_file_name)
+  ], use_filename=True, public_id=project_image_file_name, blank=True)
     
     is_main = models.BooleanField(default=False)
 
