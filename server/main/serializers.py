@@ -1,18 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import (
-    CustomUser,
-    ProjectImage,
-    Project,
-    Technology,
-    Specialization,
-    Like,
-    Comment,
-)
 
-
-from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import Comment, CustomUser, Like, Project, ProjectImage, Specialization, Technology
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -77,7 +66,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "repo",
             "telegram",
         ]
-        read_only_fields = ['id', ]
+        read_only_fields = [
+            "id",
+        ]
 
     def create(self, validated_data):
         password = validated_data.pop("password")
@@ -93,7 +84,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             instance.set_password(password)
             instance.save()
         return instance
-
 
 
 # _________project____________________#
@@ -151,15 +141,21 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ProjectCreateSerializer(serializers.ModelSerializer):
-    technology = serializers.PrimaryKeyRelatedField(
-        queryset=Technology.objects.all(), many=True
-    )
+    technology = serializers.PrimaryKeyRelatedField(queryset=Technology.objects.all(), many=True)
     # id = serializers.ReadOnlyField()
 
     class Meta:
         model = Project
 
-        fields = ["id", "title", "description", "technology", "link_hub", "link_deploy", "status"]
+        fields = [
+            "id",
+            "title",
+            "description",
+            "technology",
+            "link_hub",
+            "link_deploy",
+            "status",
+        ]
 
     def create(self, validated_data):
         technology_data = validated_data.pop("technology", [])

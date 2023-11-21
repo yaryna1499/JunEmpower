@@ -1,11 +1,10 @@
-from django.contrib.postgres.search import SearchVector
-from django.contrib.postgres.search import TrigramSimilarity, TrigramWordSimilarity
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity, TrigramWordSimilarity
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count, ExpressionWrapper, F, FloatField, Q
+from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework import filters
-from django.db.models import Q, Count, F, FloatField, ExpressionWrapper
-from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .models import Technology, Project
+from .models import Project, Technology
 from .my_tools import validate_str_to_bool
 
 
@@ -17,9 +16,7 @@ class CustomSearchFilter(filters.BaseFilterBackend):
 
         if search_param:
             title_similarity = TrigramSimilarity("title", search_param, weight="A")
-            description_similarity = TrigramSimilarity(
-                "description", search_param, weight="B"
-            )
+            description_similarity = TrigramSimilarity("description", search_param, weight="B")
             total_similarity = title_similarity + description_similarity
             queryset = (
                 queryset.annotate(
@@ -61,9 +58,9 @@ class CustomSearchFilter(filters.BaseFilterBackend):
 class TechnologiesFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         # requested_technologies = request.GET.getlist('technologies')
-        requested_technologies = request.GET.get('technologies')
+        requested_technologies = request.GET.get("technologies")
         if requested_technologies:
-            technologies_list = requested_technologies.split(',')
+            technologies_list = requested_technologies.split(",")
 
             queryset = queryset
             for tech_slug in technologies_list:
@@ -101,9 +98,7 @@ class SortFilter(filters.BaseFilterBackend):
         if sort:
             sort = sort.strip()
             if "likes" in sort:
-                queryset = queryset.annotate(likes_count=Count("likes")).order_by(
-                    sort + "_count"
-                )
+                queryset = queryset.annotate(likes_count=Count("likes")).order_by(sort + "_count")
             if "created" in sort:
                 queryset = queryset.order_by(sort)
         return queryset

@@ -1,17 +1,15 @@
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from rest_framework import permissions, viewsets
-from rest_framework import generics
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import status
-from rest_framework.response import Response
-from .serializers import *
-from .models import *
-from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly, IsOwnerProjectOrReadOnly
-from .pagination import CustomSetPagination
-from .filters import *
-from .my_tools import validate_str_to_bool
 from django.contrib.postgres.search import TrigramSimilarity
-from rest_framework import filters
+from rest_framework import filters, generics, permissions, status, viewsets
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
+from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .filters import *
+from .models import *
+from .my_tools import validate_str_to_bool
+from .pagination import CustomSetPagination
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, IsOwnerProjectOrReadOnly
+from .serializers import *
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -75,13 +73,13 @@ class UserApiUpdate(generics.RetrieveUpdateAPIView):
     http_method_names = ["get", "patch"]
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop("partial", False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        if getattr(instance, '_prefetched_objects_cache', None):
+        if getattr(instance, "_prefetched_objects_cache", None):
             instance._prefetched_objects_cache = {}
 
         response_serializer = CustomUserSerializer(instance)
@@ -219,9 +217,7 @@ class LikeViewSet(viewsets.ModelViewSet):
             like.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
-            return Response(
-                {"detail": "Does not exist like "}, status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"detail": "Does not exist like "}, status=status.HTTP_404_NOT_FOUND)
 
 
 #
@@ -244,9 +240,7 @@ class ProjectCommentsView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):

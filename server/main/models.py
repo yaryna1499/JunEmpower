@@ -1,8 +1,9 @@
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.postgres.indexes import GinIndex
-from cloudinary.models import CloudinaryField
+
 
 class Specialization(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -31,19 +32,26 @@ class Technology(models.Model):
 
 
 class CustomUser(AbstractUser):
-
     def profile_picture_file_name(self):
         return f"avatar_of_user_{self.username}"
 
     email = models.EmailField(unique=True)
-    profile_picture = CloudinaryField("profile_picture", folder='users/profile', overwrite=True,
-  transformation=[
-  {'aspect_ratio': "1.0", 'width': 150, 'crop': "fill"},
-  {'radius': "max"},
-  {'fetch_format': "auto"},
-  {"quality": 80},
-  ], use_filename=True, public_id=profile_picture_file_name, blank=True, null=True)
-    
+    profile_picture = CloudinaryField(
+        "profile_picture",
+        folder="users/profile",
+        overwrite=True,
+        transformation=[
+            {"aspect_ratio": "1.0", "width": 150, "crop": "fill"},
+            {"radius": "max"},
+            {"fetch_format": "auto"},
+            {"quality": 80},
+        ],
+        use_filename=True,
+        public_id=profile_picture_file_name,
+        blank=True,
+        null=True,
+    )
+
     specialization = models.ManyToManyField(Specialization, blank=True)
     about = models.TextField(max_length=1000, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
@@ -56,9 +64,7 @@ class CustomUser(AbstractUser):
 
 
 class Project(models.Model):
-    author = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.TextField(max_length=100)
     description = models.TextField(max_length=500)
     technology = models.ManyToManyField(Technology, blank=True)
@@ -69,57 +75,54 @@ class Project(models.Model):
         ("completed", "Completed"),
         ("in_development", "In Development"),
     )
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="in_development"
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="in_development")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         indexes = [
-            GinIndex(fields=['title'], name='title_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['description'], name='description_gin_idx', opclasses=['gin_trgm_ops']),
+            GinIndex(fields=["title"], name="title_gin_idx", opclasses=["gin_trgm_ops"]),
+            GinIndex(
+                fields=["description"],
+                name="description_gin_idx",
+                opclasses=["gin_trgm_ops"],
+            ),
         ]
 
     @property
     def main_image(self):
-        return (
-            ProjectImage.objects.filter(Q(project_id=self.id) & Q(is_main=True))
-            .first()
-            .image
-        )
+        return ProjectImage.objects.filter(Q(project_id=self.id) & Q(is_main=True)).first().image
 
     @property
     def all_images(self):
-        return (
-            ProjectImage.objects.filter(project_id=self.id)
-            .values_list("image", flat=True)
-            .order_by("-is_main")
-        )
+        return ProjectImage.objects.filter(project_id=self.id).values_list("image", flat=True).order_by("-is_main")
 
     def __str__(self):
         return f"Project {self.title}, id: {self.id}"
 
 
 class ProjectImage(models.Model):
-
     def project_image_file_name(self):
         return f"image_of_project_{self.project}_with_id_{self.id}"
 
     def project_image_folder_name(self):
         return f"projects/project_{self.project}"
 
-
-    project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="images"
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="images")
+    image = CloudinaryField(
+        "image",
+        folder=project_image_folder_name,
+        overwrite=True,
+        transformation=[
+            {"width": 400, "height": 300, "crop": "pad"},
+            {"fetch_format": "auto"},
+            {"quality": 80},
+        ],
+        use_filename=True,
+        public_id=project_image_file_name,
+        blank=True,
     )
-    image = CloudinaryField("image", folder=project_image_folder_name, overwrite=True,
-  transformation=[
-  {"width": 400, "height": 300, "crop": "pad"},
-  {'fetch_format': "auto"},
-  {"quality": 80},
-  ], use_filename=True, public_id=project_image_file_name, blank=True)
-    
+
     is_main = models.BooleanField(default=False)
 
     def __str__(self):
@@ -127,9 +130,7 @@ class ProjectImage(models.Model):
 
 
 class Like(models.Model):
-    author = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, blank=True, null=True
-    )
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="likes")
     date = models.DateTimeField(auto_now_add=True)
 
@@ -141,10 +142,8 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, blank=True, null=True
-    )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="comments")
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

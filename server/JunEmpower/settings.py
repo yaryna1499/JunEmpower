@@ -1,7 +1,7 @@
-from pathlib import Path
-import environ
 import os
+from pathlib import Path
 
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,14 +35,14 @@ INSTALLED_APPS = [
 
 # __________________________database settings_______________________________________________
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',   
-       'NAME': env('POSTGRES_DB'),   
-       'USER': env('POSTGRES_USER'),
-       'PASSWORD': env('POSTGRES_PASSWORD'),
-       'HOST': env('POSTGRES_HOST'),  
-       'PORT': env('POSTGRES_PORT')   
-   }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST"),
+        "PORT": env("POSTGRES_PORT"),
+    }
 }
 
 

@@ -1,11 +1,13 @@
-from main.models import Project, CustomUser, Specialization, Technology, ProjectImage
-from django_seed import Seed
-from django.db import transaction
-import pandas as pd
-import re
-from random import sample, choice, randint
 import os
+import re
+from random import choice, randint, sample
+
 import cloudinary
+import pandas as pd
+from django.db import transaction
+from django_seed import Seed
+
+from main.models import CustomUser, Project, ProjectImage, Specialization, Technology
 
 seeder = Seed.seeder()  # для фейкових проектів та юзерів
 
@@ -32,9 +34,7 @@ def seed_tech():
                 tech = Technology(title=item, slug=re.sub("[/()\s\_\.]", "-", slug))
 
             else:
-                tech = Technology(
-                    title=item, slug=re.sub("[/()\s\_\.]", "-", item.lower())
-                )
+                tech = Technology(title=item, slug=re.sub("[/()\s\_\.]", "-", item.lower()))
         finally:
             tech.save()
 
@@ -73,9 +73,7 @@ def select_random_avatar():
 
 def seed_users():
     # Отримуємо всі наявні спеціалізації з таблиці Specialization
-    all_specializations = list(
-        Specialization.objects.all().values_list("pk", flat=True)
-    )
+    all_specializations = list(Specialization.objects.all().values_list("pk", flat=True))
     seeder.add_entity(
         CustomUser,
         50,
@@ -93,12 +91,8 @@ def seed_users():
 
     for pk in inserted_pks[CustomUser]:
         user = CustomUser.objects.get(pk=pk)
-        random_specializations = sample(
-            all_specializations, k=3
-        )  # Вибираємо 3 рандомні спеціалізації
-        user.specialization.set(
-            random_specializations
-        )  # Use .set() to assign the many-to-many relationship
+        random_specializations = sample(all_specializations, k=3)  # Вибираємо 3 рандомні спеціалізації
+        user.specialization.set(random_specializations)  # Use .set() to assign the many-to-many relationship
 
 
 def generate_tags():
@@ -135,15 +129,11 @@ def seed_projects():
 
     for pk in inserted_pks:
         project = Project.objects.get(pk=pk)
-        random_author_pk = choice(
-            all_users
-        )  # Виберіть випадковий ідентифікатор користувача
+        random_author_pk = choice(all_users)  # Виберіть випадковий ідентифікатор користувача
         random_author = CustomUser.objects.get(
             pk=random_author_pk
         )  # Отримайте екземпляр користувача за його ідентифікатором
-        project.author = (
-            random_author  # Присвоєння екземпляра користувача полю project.author
-        )
+        project.author = random_author  # Присвоєння екземпляра користувача полю project.author
         project.save()
 
 

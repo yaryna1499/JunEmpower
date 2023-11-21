@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.db.models import Q
 from django.contrib.auth.backends import ModelBackend
+from django.db.models import Q
 
 UserModel = get_user_model()
 
@@ -20,11 +20,7 @@ class EmailBackend(ModelBackend):
                     user = None
                     UserModel().set_password(password)
 
-            if (
-                user
-                and user.check_password(password)
-                and self.user_can_authenticate(user)
-            ):
+            if user and user.check_password(password) and self.user_can_authenticate(user):
                 return user
 
         return None
