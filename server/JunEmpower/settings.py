@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "django.contrib.postgres",
     "django_seed",
+    "cloudinary_storage",
     "cloudinary",
 ]
 
@@ -54,6 +55,7 @@ STATIC_ROOT = BASE_DIR / "static"
 
 # _____________________Cloudinary for media files serving configuration____________________
 CLOUDINARY_URL = env("CLOUDINARY_URL")
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 # _________________________________________________________________________________________
 
 
@@ -94,6 +96,11 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # __________________________________________________________________________________________
+
+DEBUG_TOOLBAR_PANELS = [
+    "debug_toolbar.panels.settings.SettingsPanel",
+    "debug_toolbar.panels.signals.SignalsPanel",
+]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

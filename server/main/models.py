@@ -62,6 +62,11 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+    def save(self, *args, **kwargs):
+        from . import signals
+
+        return super().save(*args, **kwargs)
+
 
 class Project(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
@@ -121,6 +126,7 @@ class ProjectImage(models.Model):
         use_filename=True,
         public_id=project_image_file_name,
         blank=True,
+        null=True,
     )
 
     is_main = models.BooleanField(default=False)
