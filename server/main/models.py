@@ -106,9 +106,10 @@ class Project(models.Model):
         return f"Project {self.title}, id: {self.id}"
 
 
+#############################
 class ProjectImage(models.Model):
     def project_image_file_name(self):
-        return f"image_of_project_{self.project}_with_id_{self.id}"
+        return f"image_of_project_{self.project}_with_id_{self.id}"  ############################################
 
     def project_image_folder_name(self):
         return f"projects/project_{self.project}"

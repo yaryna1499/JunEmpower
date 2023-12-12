@@ -6,8 +6,9 @@ on:
           - closed
         branches:
           - "main"
-        paths:
-          - 'backend/**'
+    push:
+        branches:
+          - "main"
 
 jobs:
     build:
@@ -28,14 +29,12 @@ jobs:
             SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
             REMOTE_HOST: ${{ secrets.EC2_HOST }}
             REMOTE_USER: ${{ secrets.EC2_USER }}
-            TARGET: /home/${{ secrets.EC2_USER }}/JunEmpower
-            ARGS: "-rlgoDzvc -i --delete"
-            EXCLUDE: "/infra/, /.git/, /backend/app/logs/, /backend/app/examples/, /backend/app/htmlcov/"
+            TARGET: /home/${{ secrets.EC2_USER }}/JunEmpower/server
             SCRIPT_BEFORE: |
                 whoami
                 ls -al
             SCRIPT_AFTER: |
                 whoami
                 ls -al
-                chmod +x ./deployment/scripts/rebuild.sh
-                cd deployment && ./scripts/rebuild.sh
+                sudo docker-compose up --build -d
+                docker ps
