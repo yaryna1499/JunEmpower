@@ -19,10 +19,6 @@ jobs:
         - name: Checkout the files
           uses: actions/checkout@v4
 
-        - name: Create environment file
-          run: |
-              cp .env.example .env
-
         - name: Deploy to the server
           uses: easingthemes/ssh-deploy@v4
           with:
@@ -31,10 +27,7 @@ jobs:
             REMOTE_USER: ${{ secrets.EC2_USER }}
             TARGET: /home/${{ secrets.EC2_USER }}/JunEmpower/server
             SCRIPT_BEFORE: |
-                whoami
-                ls -al
+                cp .env.example .env
             SCRIPT_AFTER: |
-                whoami
-                ls -al
                 sudo docker-compose up --build -d
                 docker ps
