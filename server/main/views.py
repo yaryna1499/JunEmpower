@@ -85,6 +85,11 @@ class UserApiUpdate(generics.RetrieveUpdateAPIView):
         response_serializer = CustomUserSerializer(instance)
         return Response(response_serializer.data)
 
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return CustomUserSerializer
+        return self.serializer_class
+
 
 class UserApiDestroy(generics.RetrieveDestroyAPIView):
     permission_classes = (

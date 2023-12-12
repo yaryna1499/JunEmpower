@@ -1,6 +1,7 @@
 import os
 import re
 from random import choice, randint, sample
+from time import sleep
 
 import cloudinary
 import pandas as pd
@@ -161,7 +162,13 @@ def seed_pr_tech():
         project.technology.set(random_tech)
 
 
-if __name__ == "__main__":
+def run_all():
+    seed_specializations()
+    sleep(1)
+    seed_tech()
+    sleep(1)
     seed_users()
+    sleep(1)
     seed_projects()
-    seed_pr_images()
+    sleep(1)
+    seed_pr_tech()

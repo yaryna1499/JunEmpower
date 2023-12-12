@@ -27,8 +27,13 @@ def ensure_main_image_exists(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=User)
 def delete_image_from_cloudinary(sender, instance, **kwargs):
-    old_instance = sender.objects.get(pk=instance.pk)
-    old_field_value = old_instance.profile_picture
-    if old_field_value:
-        if instance.profile_picture is None:
-            cloudinary.uploader.destroy(old_field_value.public_id, invalidate=True)
+    try:
+        old_instance = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        old_instance = None
+
+    if old_instance:
+        old_field_value = old_instance.profile_picture
+        if old_field_value:
+            if instance.profile_picture is None:
+                cloudinary.uploader.destroy(old_field_value.public_id, invalidate=True)
