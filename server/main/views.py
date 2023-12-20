@@ -163,6 +163,14 @@ class ProjectApiView(generics.ListCreateAPIView):
         kwargs["context"] = self.get_serializer_context()
         return self.get_serializer_class()(*args, **kwargs)
 
+    def get_queryset(self):
+        """
+        Список проектів для конкретного юзера по id
+        """
+        author_id = self.request.query_params.get("author")
+        queryset = Project.objects.filter(author=author_id)
+        return queryset
+
 
 class ProjectUpdateApiView(generics.RetrieveUpdateAPIView):
     queryset = Project.objects.all()

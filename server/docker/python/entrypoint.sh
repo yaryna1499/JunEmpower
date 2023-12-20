@@ -32,7 +32,7 @@ python manage.py migrate
 python manage.py collectstatic --no-input
 
 # Запуск Gunicorn
-gunicorn --bind 0.0.0.0:8000 JunEmpower.wsgi
+gunicorn --bind 0.0.0.0:5000 JunEmpower.wsgi
 
 # Заміна процесу скрипта із збереженням аргументів
 exec "$@"

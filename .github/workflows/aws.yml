@@ -29,5 +29,5 @@ jobs:
             SCRIPT_BEFORE: |
                 cp .env.example .env
             SCRIPT_AFTER: |
-                sudo docker-compose up --build -d
+                sudo docker compose up --build -d
                 docker ps

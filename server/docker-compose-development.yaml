@@ -12,18 +12,7 @@ services:
       - ./docker/db:/var/lib/postgresql/data
       - ./extension.sql:/docker-entrypoint-initdb.d/create_tables.sql
     networks:
-      - my-network
-
-  nginx:
-    image: nginx:1.23-alpine
-    volumes:
-      - .:/app
-      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - 1443:80
-    networks:
-      - my-network
-
+      - dev
 
   app:
     build:
@@ -36,10 +25,10 @@ services:
     volumes:
       - .:/app
     networks:
-      - my-network
+      - dev
     depends_on:
       - db
 
 networks:
-  my-network:
+  dev:
     driver: bridge
