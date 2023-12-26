@@ -55,3 +55,24 @@ Seed fake data in db
 
 [http://127.0.0.1:8000/redoc/](http://127.0.0.1:8000/redoc/)
 
+
+## Common problems
+
+Django don't serve staticfiles
+
+```bash
+  python3 manage.py collectstatic --no-input
+```
+Docker problems:
+- busy ports by containers from another projects
+Stop all containers
+
+```bash
+  docker stop $(docker ps -a -q)
+```
+- permission denied for db folder
+Give recursive permission for all project files(bad practise, but ...)
+```bash
+  sudo chmod -R 0777 *
+```
+
