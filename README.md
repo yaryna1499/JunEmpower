@@ -64,13 +64,13 @@ Django don't serve staticfiles
   python3 manage.py collectstatic --no-input
 ```
 Docker problems:
-- busy ports by containers from another projects
+- busy ports by containers from another projects<br>
 Stop all containers
 
 ```bash
   docker stop $(docker ps -a -q)
 ```
-- permission denied for db folder
+- permission denied for db folder<br>
 Give recursive permission for all project files(bad practise, but ...)
 ```bash
   sudo chmod -R 0777 *
