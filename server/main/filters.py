@@ -102,3 +102,11 @@ class SortFilter(filters.BaseFilterBackend):
             if "created" in sort:
                 queryset = queryset.order_by(sort)
         return queryset
+
+
+class ProjectAuthorFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        author_id = request.GET.get("author")
+        if author_id:
+            queryset = queryset.filter(author_id=author_id)
+        return queryset
