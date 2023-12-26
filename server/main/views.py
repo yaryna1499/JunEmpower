@@ -136,6 +136,7 @@ class ProjectApiView(generics.ListCreateAPIView):
         LinkDeployFilter,
         LinkHubFilter,
         SortFilter,
+        ProjectAuthorFilter,
     ]
 
     def list(self, request, *args, **kwargs):
@@ -162,14 +163,6 @@ class ProjectApiView(generics.ListCreateAPIView):
     def get_serializer(self, *args, **kwargs):
         kwargs["context"] = self.get_serializer_context()
         return self.get_serializer_class()(*args, **kwargs)
-
-    def get_queryset(self):
-        """
-        Список проектів для конкретного юзера по id
-        """
-        author_id = self.request.query_params.get("author")
-        queryset = Project.objects.filter(author=author_id)
-        return queryset
 
 
 class ProjectUpdateApiView(generics.RetrieveUpdateAPIView):
@@ -231,9 +224,6 @@ class LikeViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
             return Response({"detail": "Does not exist like "}, status=status.HTTP_404_NOT_FOUND)
-
-
-#
 
 
 class ProjectCommentsView(generics.ListCreateAPIView):
