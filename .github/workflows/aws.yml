@@ -26,8 +26,8 @@ jobs:
             REMOTE_HOST: ${{ secrets.EC2_HOST }}
             REMOTE_USER: ${{ secrets.EC2_USER }}
             TARGET: /home/${{ secrets.EC2_USER }}/JunEmpower/server
-            SCRIPT_BEFORE: |
+            SCRIPT: |
+            	cd /home/${{ secrets.EC2_USER }}/JunEmpower/server
                 cp .env.example .env
-            SCRIPT_AFTER: |
                 sudo docker compose up --build -d
                 docker ps
