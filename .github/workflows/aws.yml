@@ -26,6 +26,9 @@ jobs:
             REMOTE_HOST: ${{ secrets.EC2_HOST }}
             REMOTE_USER: ${{ secrets.EC2_USER }}
             TARGET: /home/${{ secrets.EC2_USER }}/JunEmpower/server
+            SCRIPT_BEFORE: |
+                cd /home/${{ secrets.EC2_USER }}/JunEmpower/server
+                git pull
             SCRIPT_AFTER: |
                 cd /home/${{ secrets.EC2_USER }}/JunEmpower/server
                 cp .env.example.deploy .env
