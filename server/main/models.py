@@ -1,7 +1,10 @@
+import secrets
+
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.indexes import GinIndex
 from django.db import models
+from django.db.models import Q
 from django.utils.text import slugify
 
 
@@ -109,7 +112,8 @@ class Project(models.Model):
 #############################
 class ProjectImage(models.Model):
     def project_image_file_name(self):
-        return f"image_of_project_{self.project}_with_id_{self.id}"  ############################################
+        unique_identifier = secrets.token_hex(5)
+        return f"{unique_identifier}.png"
 
     def project_image_folder_name(self):
         return f"projects/project_{self.project}"

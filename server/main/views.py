@@ -1,7 +1,12 @@
+from cloudinary.uploader import destroy
 from django.contrib.postgres.search import TrigramSimilarity
+from django.core.mail import send_mail
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from rest_framework import filters, generics, permissions, status, viewsets
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .filters import *
@@ -196,12 +201,19 @@ class ImageApiView(generics.ListCreateAPIView):
     serializer_class = ImageSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+#################################Dima
+@receiver(pre_delete, sender=ProjectImage)
+def delete_cloudinary_image(sender, instance, **kwargs):
+    public_id = instance.image.public_id
+    destroy([public_id])
+#################################Dima
+
 
 class ImageDeleteApiView(generics.DestroyAPIView):
     parser_classes = (MultiPartParser, FormParser)
     queryset = ProjectImage.objects.all()
     serializer_class = ImageSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
 
 
 class LikeViewSet(viewsets.ModelViewSet):
@@ -258,3 +270,5 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
         comment_id = self.kwargs.get("comment_id")
         comment = get_object_or_404(Comment, id=comment_id)
         return comment
+
+
