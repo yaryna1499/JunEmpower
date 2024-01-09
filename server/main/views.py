@@ -1,12 +1,9 @@
-from django.contrib.postgres.search import TrigramSimilarity
-from rest_framework import filters, generics, permissions, status, viewsets
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .filters import *
-from .models import *
-from .my_tools import validate_str_to_bool
 from .pagination import CustomSetPagination
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, IsOwnerProjectOrReadOnly
 from .serializers import *
@@ -201,7 +198,7 @@ class ImageDeleteApiView(generics.DestroyAPIView):
     parser_classes = (MultiPartParser, FormParser)
     queryset = ProjectImage.objects.all()
     serializer_class = ImageSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
 
 
 class LikeViewSet(viewsets.ModelViewSet):
@@ -258,3 +255,5 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
         comment_id = self.kwargs.get("comment_id")
         comment = get_object_or_404(Comment, id=comment_id)
         return comment
+
+
