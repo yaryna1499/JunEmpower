@@ -1,9 +1,6 @@
 
 # JunEmpower
 
-* [Trello link](https://trello.com/invite/b/POfUlFfE/ATTId5fe0550f25f46f2da9472abae9a17b94944872B/sprint-board)
-
-
 ## Run Locally
 
 Create virtual environment
